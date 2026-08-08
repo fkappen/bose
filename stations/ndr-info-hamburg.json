@@ -1,0 +1,17 @@
+{
+    "name":  "NDR Info (Hamburg)",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.ndr.de/apple-touch-icon-120x120.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo_hh.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo_hh.m3u"
+                                  }
+                              ]
+              }
+}

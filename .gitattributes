@@ -1,0 +1,9 @@
+# Shell-Skripte muessen LF behalten, sonst scheitern sie auf der Box an \r
+*.sh text eol=lf
+
+# Konfiguration, die das Geraet einliest - ebenfalls LF
+*.json text eol=lf
+*.xml  text eol=lf
+
+# PowerShell darf CRLF haben
+*.ps1 text eol=crlf

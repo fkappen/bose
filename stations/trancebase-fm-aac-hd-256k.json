@@ -1,0 +1,17 @@
+{
+    "name":  "TranceBase.FM - AAC HD 256k",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.trancebase.fm/media/icons/trb/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://listen.trancebase.fm/tunein-aac-hd-pls",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://listen.trancebase.fm/tunein-aac-hd-pls"
+                                  }
+                              ]
+              }
+}

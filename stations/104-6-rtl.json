@@ -1,0 +1,17 @@
+{
+    "name":  "104.6 RTL",
+    "streamType":  "liveRadio",
+    "imageUrl":  "http://www.104.6rtl.com/assets/icons/icon-152x152.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://stream.104.6rtl.com/rtl-live/mp3-192/radio-browser.info/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://stream.104.6rtl.com/rtl-live/mp3-192/radio-browser.info/"
+                                  }
+                              ]
+              }
+}

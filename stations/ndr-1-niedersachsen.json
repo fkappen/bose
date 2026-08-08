@@ -1,0 +1,17 @@
+{
+    "name":  "NDR 1 Niedersachsen",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.phonostar.de/images/auto_created/NDR1_Niedersachsen2184x184.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708\u0026aggregator=web",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708\u0026aggregator=web"
+                                  }
+                              ]
+              }
+}

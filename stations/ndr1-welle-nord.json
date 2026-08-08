@@ -1,0 +1,17 @@
+{
+  "name": "NDR 1 Welle Nord",
+  "streamType": "liveRadio",
+  "imageUrl": "http://www.ndr.de/favicon.ico",
+  "audio": {
+    "isRealtime": true,
+    "hasPlaylist": true,
+    "streamUrl": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr1wellenord_ki.m3u",
+    "streams": [
+      {
+        "isRealtime": true,
+        "hasPlaylist": true,
+        "streamUrl": "http://www.ndr.de/resources/metadaten/audio/m3u/ndr1wellenord_ki.m3u"
+      }
+    ]
+  }
+}

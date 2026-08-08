@@ -1,0 +1,17 @@
+{
+    "name":  "MANGORADIO",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://mangoradio.de/wp-content/uploads/cropped-Logo-192x192.webp",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://mangoradio.stream.laut.fm/mangoradio",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://mangoradio.stream.laut.fm/mangoradio"
+                                  }
+                              ]
+              }
+}

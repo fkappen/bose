@@ -1,0 +1,17 @@
+{
+    "name":  "BR24",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://api.ardmediathek.de/image-service/images/urn:ard:image:c3ab9296f3b282bf?w=512",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://dispatcher.rndfnk.com/br/br24/live/mp3/mid",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://dispatcher.rndfnk.com/br/br24/live/mp3/mid"
+                                  }
+                              ]
+              }
+}

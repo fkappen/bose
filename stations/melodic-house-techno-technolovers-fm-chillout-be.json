@@ -1,0 +1,17 @@
+{
+    "name":  "Melodic House \u0026 Techno @ Technolovers.FM (Chillout, Beach, Festival, Sundowner, Relax, Ibiza, Sea, Ocean Music, Beachclub, Cocktailbar, 2024, 2025, 2026 Future Rave 126, 128, 124 Beats per Minute , BPM)",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/mFjn8LB/TL-Melodic-House-Techno-png.jpg",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://stream.technolovers.fm/melodic-house-techno?ref=radiobrowser-2",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://stream.technolovers.fm/melodic-house-techno?ref=radiobrowser-2"
+                                  }
+                              ]
+              }
+}

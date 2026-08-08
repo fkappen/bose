@@ -1,0 +1,17 @@
+{
+    "name":  "NDR 2 - Niedersachsen",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://ndr.de/apple-touch-icon-120x120.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u"
+                                  }
+                              ]
+              }
+}

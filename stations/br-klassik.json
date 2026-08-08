@@ -1,0 +1,17 @@
+{
+    "name":  "BR-Klassik",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://api.ardmediathek.de/image-service/images/urn:ard:image:476e47d76c4bbf78?w=512",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://dispatcher.rndfnk.com/br/brklassik/live/mp3/high",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://dispatcher.rndfnk.com/br/brklassik/live/mp3/high"
+                                  }
+                              ]
+              }
+}

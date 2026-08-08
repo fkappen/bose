@@ -1,0 +1,17 @@
+{
+    "name":  "Bayern 1 Franken",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://api.ardmediathek.de/image-service/images/urn:ard:image:b366004f6196d70c?w=512",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid"
+                                  }
+                              ]
+              }
+}

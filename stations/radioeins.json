@@ -1,0 +1,17 @@
+{
+    "name":  "Radioeins",
+    "streamType":  "liveRadio",
+    "imageUrl":  "http://www.radioeins.de/content/dam/rbb/rbb/logos/touch/rad-128.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://www.radioeins.de/live.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://www.radioeins.de/live.m3u"
+                                  }
+                              ]
+              }
+}

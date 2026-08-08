@@ -1,0 +1,17 @@
+{
+    "name":  "Schlagerparadies",
+    "streamType":  "liveRadio",
+    "imageUrl":  "",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://www.surfmusik.de/m3u/schlagerparadies,9490.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://www.surfmusik.de/m3u/schlagerparadies,9490.m3u"
+                                  }
+                              ]
+              }
+}

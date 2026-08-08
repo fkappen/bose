@@ -1,0 +1,517 @@
+{
+    "_hinweis":  "Katalog der lokalen Senderdateien. Wird von Update-StationCatalog gepflegt.",
+    "aktualisiert":  "2026-08-09",
+    "anzahl":  102,
+    "stations":  {
+                     "0-n-classic-rock-on-radio":  {
+                                                       "name":  "- 0 N - Classic Rock on Radio",
+                                                       "uuid":  "d7f5a497-40ec-11e9-aa55-52543be04c81",
+                                                       "url":  "https://0n-classicrock.radionetz.de/0n-classicrock.mp3"
+                                                   },
+                     "0r-80s-80s-pop-80s-hits-synthpop-new-wave-dance":  {
+                                                                             "name":  "0R - 80s || 80s Pop, 80s Hits, Synthpop, New Wave, Dance, Disco, Pop Classics, Retro, Teen Pop, Funk, Pop Rock, Chart Hits, 80s Dance, Nostalgic, Hit Songs",
+                                                                             "uuid":  "2f6269a1-dee4-4c13-994a-2b10803d5eec",
+                                                                             "url":  "https://0nlineradio.radioho.st/0r-80s?ref=radio-browser26"
+                                                                         },
+                     "0r-80s-rock-classic-rock-hard-rock-pop-rock-rock":  {
+                                                                              "name":  "0R - 80s ROCK || Classic Rock, Hard Rock, Pop Rock, Rock Hits, Guitar, Ballads, Hair Metal, Rock Anthems, Retro, Vintage, Arena Rock, Party Rock, Rock Classics, Melodic Rock",
+                                                                              "uuid":  "652a2fa1-d3fe-4724-a3eb-3d6b7fb1e687",
+                                                                              "url":  "https://0nlineradio.radioho.st/0r-80s-rock?ref=radio-browser26"
+                                                                          },
+                     "0r-coffee-lounge-background-music-jazz-lounge-ch":  {
+                                                                              "name":  "0R - COFFEE LOUNGE || Background Music, Jazz, Lounge, Chill, Smooth, Acoustic, Soft Pop, Easy Listening, Relax, Cafe, Background, Mellow, Evening, Instrumental, Romantic, Soft Jazz",
+                                                                              "uuid":  "70094073-a1a6-4c73-b871-6b25dddee813",
+                                                                              "url":  "https://0nlineradio.radioho.st/lounge-coffee-bar-lounge?ref=radio-browser26"
+                                                                          },
+                     "0r-lo-fi-lofi-chill-study-hip-hop-relax-backgrou":  {
+                                                                              "name":  "0R - LO-FI || LoFi, Chill, Study, Hip Hop, Relax, Background, Calm, Instrumental, Smooth, Beats, Coffee, Work, Focus, Soft, Chillhop",
+                                                                              "uuid":  "49902d2d-672d-4130-b42a-90592d0460c5",
+                                                                              "url":  "https://0nlineradio.radioho.st/0r-lo-fi?ref=radio-browser26"
+                                                                          },
+                     "0r-music-for-sleep-sleep-relax-calm-meditation-n":  {
+                                                                              "name":  "0R - MUSIC FOR SLEEP || Sleep, Relax, Calm, Meditation, Nature, Ambient, Soft Music, Piano, Deep Sleep, Peaceful, Chill, Background, Slow, Gentle, Instrumental",
+                                                                              "uuid":  "3f4be720-c996-439f-be3b-cce594ea2852",
+                                                                              "url":  "https://0nlineradio.radioho.st/classical-classical-music-for-sleep?ref=radio-browser26"
+                                                                          },
+                     "0r-piano-jazz-lounge-jazz-piano-lounge-smooth-ch":  {
+                                                                              "name":  "0R - PIANO JAZZ LOUNGE || Jazz, Piano, Lounge, Smooth, Chill, Relax, Soft, Acoustic, Instrumental, Evening, Romantic, Background, Coffee, Mellow, Elegant",
+                                                                              "uuid":  "4f30d107-82f3-4e4e-99e4-44e05adcb2e9",
+                                                                              "url":  "https://0nlineradio.radioho.st/lounge-piano-jazz-bar?ref=radio-browser26"
+                                                                          },
+                     "104-6-rtl":  {
+                                       "name":  "104.6 RTL",
+                                       "uuid":  "960e47fc-0601-11e8-ae97-52543be04c81",
+                                       "url":  "http://stream.104.6rtl.com/rtl-live/mp3-192/radio-browser.info/"
+                                   },
+                     "1live":  {
+                                   "name":  "1LIVE",
+                                   "uuid":  "9606f727-0601-11e8-ae97-52543be04c81",
+                                   "url":  "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3"
+                               },
+                     "80s80s":  {
+                                    "name":  "80s80s",
+                                    "uuid":  "962dc110-0601-11e8-ae97-52543be04c81",
+                                    "url":  "http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/"
+                                },
+                     "80s80s-italo-disco":  {
+                                                "name":  "80s80s Italo Disco",
+                                                "uuid":  "900a7450-c2fb-4896-a38f-99a2e6dc0c6e",
+                                                "url":  "http://regiocast.streamabc.net/regc-80s80sitalohits4327678-mp3-192-4934150?sABC=654902n3%230%232qqpnss01895rqr0s8oq129o03s183o0%23fgernzf.80f80f.qr\u0026aw_0_1st.playerid=streams.80s80s.de\u0026amsparams=playerid:streams.80s80s.de;skey:1699283619"
+                                            },
+                     "80s80s-radio":  {
+                                          "name":  "80s80s Radio",
+                                          "uuid":  "1b762b21-2ec6-412a-a231-fa34a96f4f99",
+                                          "url":  "http://streams.80s80s.de/web/mp3-192/play.m3u"
+                                      },
+                     "90s90s-dance-hq":  {
+                                             "name":  "90s90s Dance HQ",
+                                             "uuid":  "b7e7bb7b-b41a-11e8-afe1-52543be04c81",
+                                             "url":  "http://streams.90s90s.de/eurodance/mp3-192/radiode/"
+                                         },
+                     "90s90s-hiphop-rap":  {
+                                               "name":  "90s90s HipHop \u0026 Rap",
+                                               "uuid":  "85c799b3-d91f-4f60-b91a-723e4a04acf5",
+                                               "url":  "http://streams.90s90s.de/hiphop/mp3-192/streams.90s90s.de/"
+                                           },
+                     "90s90s-hits":  {
+                                         "name":  "90s90s Hits",
+                                         "uuid":  "9637a1b2-0601-11e8-ae97-52543be04c81",
+                                         "url":  "http://streams.90s90s.de/pop/mp3-192/streams.90s90s.de/"
+                                     },
+                     "90s90s-techno-hq":  {
+                                              "name":  "90s90s Techno HQ",
+                                              "uuid":  "0c9ddabb-b41c-11e8-afe1-52543be04c81",
+                                              "url":  "http://streams.90s90s.de/techno/mp3-192/radiode/"
+                                          },
+                     "absolut-relax":  {
+                                           "name":  "Absolut Relax",
+                                           "uuid":  "ae209b3a-d20a-48f2-b303-22d68e385bf4",
+                                           "url":  "https://absolut-relax.live-sm.absolutradio.de/absolut-relax?__cb=130270101023249"
+                                       },
+                     "aktuelle-hits-24h-non-stop-music-dance-dj-mix-ra":  {
+                                                                              "name":  "# Aktuelle HITS - 24H NON-STOP MUSIC - DANCE \u0026 DJ MIX RADIO @ TikTok Hits, Ibiza House, Sunset Lounge, Melodic Music, EDM, Deep House, Dance Music, Techno \u0026 Hypertechno, Rave Charts, Top 40 Charts, Latin, Reggaeton Music, Moombahton, Urban Hits, HipHop, Party \u0026 Clubbing Radio, Trending Chartmusic, R\u0026B, Urban, Mixtape - \u0026 LIVE DJ SET",
+                                                                              "uuid":  "e94afa1a-0f96-4a57-8b97-112bb5cd348d",
+                                                                              "url":  "https://breakz-2012-high.rautemusik.fm/?ref=radiobrowser-akthits"
+                                                                          },
+                     "antenne-bayern":  {
+                                            "name":  "Antenne Bayern",
+                                            "uuid":  "9605739a-0601-11e8-ae97-52543be04c81",
+                                            "url":  "http://mp3channels.webradio.antenne.de/antenne"
+                                        },
+                     "antenne-bayern-chillout":  {
+                                                     "name":  "Antenne Bayern - Chillout",
+                                                     "uuid":  "9610c454-0601-11e8-ae97-52543be04c81",
+                                                     "url":  "http://mp3channels.webradio.antenne.de/chillout"
+                                                 },
+                     "antenne-sylt":  {
+                                          "name":  "Antenne Sylt",
+                                          "uuid":  "",
+                                          "url":  "https://streams.antenne-sylt.de/sylt/mp3-192/konsoleplayer"
+                                      },
+                     "antenne-sylt-festland":  {
+                                                   "name":  "Antenne Sylt - Sylt/Flensburg",
+                                                   "uuid":  "",
+                                                   "url":  "https://streams.antenne-sylt.de/festland/mp3-192/konsoleplayer"
+                                               },
+                     "bayern-1-franken":  {
+                                              "name":  "Bayern 1 Franken",
+                                              "uuid":  "3a0985e9-788d-11e8-83fa-52543be04c81",
+                                              "url":  "https://dispatcher.rndfnk.com/br/br1/franken/mp3/mid"
+                                          },
+                     "bayern-1-oberbayern":  {
+                                                 "name":  "Bayern 1 Oberbayern",
+                                                 "uuid":  "7a49c017-1391-4e18-a4d8-a9bab58516e6",
+                                                 "url":  "https://dispatcher.rndfnk.com/br/br1/obb/mp3/mid"
+                                             },
+                     "bayern-2":  {
+                                      "name":  "Bayern 2",
+                                      "uuid":  "1f3700b5-4875-4bdf-986d-1dcaa4e8dfbe",
+                                      "url":  "https://dispatcher.rndfnk.com/br/br2/live/mp3/mid"
+                                  },
+                     "bayern-3":  {
+                                      "name":  "Bayern 3",
+                                      "uuid":  "0de82079-04e7-407b-b616-e0726eba5244",
+                                      "url":  "https://dispatcher.rndfnk.com/br/br3/live/mp3/mid"
+                                  },
+                     "beats-radio":  {
+                                         "name":  "Beats Radio",
+                                         "uuid":  "f28460cb-9f0d-4602-9a46-be8c49975a16",
+                                         "url":  "http://live.streams.klassikradio.de/beats-radio/stream/mp3"
+                                     },
+                     "blasmusikradio-mit-bernd":  {
+                                                      "name":  "Blasmusikradio mit Bernd",
+                                                      "uuid":  "ffc0d701-f43b-4232-8be6-f7ff72add8ef",
+                                                      "url":  "https://stream.laut.fm/blasmusikradio_mit_bernd"
+                                                  },
+                     "br24":  {
+                                  "name":  "BR24",
+                                  "uuid":  "787eda99-1532-4ee0-b14e-fdb88ec71530",
+                                  "url":  "https://dispatcher.rndfnk.com/br/br24/live/mp3/mid"
+                              },
+                     "bremen-eins":  {
+                                         "name":  "Bremen Eins",
+                                         "uuid":  "e6822dac-209c-4ea2-b565-643cf1b31ce1",
+                                         "url":  "http://www.surfmusik.de/m3u/station/bremen-eins,8566.m3u"
+                                     },
+                     "br-klassik":  {
+                                        "name":  "BR-Klassik",
+                                        "uuid":  "29010f42-faef-4a9e-b15c-3ad1613b45cb",
+                                        "url":  "https://dispatcher.rndfnk.com/br/brklassik/live/mp3/high"
+                                    },
+                     "bytefm-192k":  {
+                                         "name":  "ByteFM (192k)",
+                                         "uuid":  "efcd88c5-cd6f-11e8-a54a-52543be04c81",
+                                         "url":  "https://bytefm.cast.addradio.de/bytefm/main/high/stream"
+                                     },
+                     "country-108":  {
+                                         "name":  "Country 108",
+                                         "uuid":  "960d1692-0601-11e8-ae97-52543be04c81",
+                                         "url":  "http://tuner.country108.com/;"
+                                     },
+                     "deejay-remixe-your-radio-for-finest-house-edm-el":  {
+                                                                              "name":  "_DEEJAY REMIXE_ Your Radio for finest House, EDM, Electro, Dance, Mashup, Hypertechno, Techno, Bootleg, Charts, Top40, Chillout, Lounge, HipHop, Urban \u0026 Latin Party DJ Remixes!",
+                                                                              "uuid":  "be26f3f5-1ee1-4661-a3de-4544fc29e833",
+                                                                              "url":  "https://breakz-high.rautemusik.fm/?ref=radiobrowser-deejay-remixes-radio"
+                                                                          },
+                     "deutschlandfunk-dlf-aac-192k":  {
+                                                          "name":  "Deutschlandfunk | DLF | AAC 192k",
+                                                          "uuid":  "717e3749-b9e8-4497-bd6a-61ccec935922",
+                                                          "url":  "https://st01.sslstream.dlf.de/dlf/01/high/aac/stream.aac?aggregator=web"
+                                                      },
+                     "deutschlandfunk-dlf-aac-48k":  {
+                                                         "name":  "Deutschlandfunk | DLF | AAC 48k",
+                                                         "uuid":  "97730dcf-857f-4b0a-9f33-c18af303c14b",
+                                                         "url":  "https://st01.sslstream.dlf.de/dlf/01/low/aac/stream.aac?aggregator=web"
+                                                     },
+                     "deutschlandfunk-dlf-aac-96k":  {
+                                                         "name":  "Deutschlandfunk | DLF | AAC 96k",
+                                                         "uuid":  "01683d91-4e1e-4152-b1bc-30f2f1360b98",
+                                                         "url":  "https://st01.sslstream.dlf.de/dlf/01/mid/aac/stream.aac?aggregator=web"
+                                                     },
+                     "deutschlandfunk-dlf-mp3-128k":  {
+                                                          "name":  "Deutschlandfunk | DLF | MP3 128k",
+                                                          "uuid":  "1c3e8be2-5b14-4933-bad3-87cbc227cba4",
+                                                          "url":  "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web"
+                                                      },
+                     "deutschlandfunk-dlf-opus-24k":  {
+                                                          "name":  "Deutschlandfunk | DLF | OPUS 24k",
+                                                          "uuid":  "5a6946a2-f02f-4fd1-a16b-558c90150041",
+                                                          "url":  "https://st01.sslstream.dlf.de/dlf/01/low/opus/stream.opus?aggregator=web"
+                                                      },
+                     "deutschlandfunk-kultur-dlf-aac-192k":  {
+                                                                 "name":  "Deutschlandfunk Kultur | DLF | AAC 192k",
+                                                                 "uuid":  "0b6cc5a0-f5a0-4a62-b128-e48153fd864c",
+                                                                 "url":  "https://st02.sslstream.dlf.de/dlf/02/high/aac/stream.aac?aggregator=web"
+                                                             },
+                     "deutschlandfunk-kultur-dlf-mp3-128k":  {
+                                                                 "name":  "Deutschlandfunk Kultur | DLF | MP3 128k",
+                                                                 "uuid":  "10f16cf6-bc45-4b67-8f17-9758f249a61a",
+                                                                 "url":  "https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3?aggregator=web"
+                                                             },
+                     "deutschlandfunk-nova-dlf-aac-192k":  {
+                                                               "name":  "Deutschlandfunk Nova | DLF | AAC 192k",
+                                                               "uuid":  "21ab678c-ff19-4314-9969-165e15b4210d",
+                                                               "url":  "https://st03.sslstream.dlf.de/dlf/03/high/aac/stream.aac?aggregator=web"
+                                                           },
+                     "deutschlandfunk-nova-dlf-mp3-128k":  {
+                                                               "name":  "Deutschlandfunk Nova | DLF | MP3 128k",
+                                                               "uuid":  "0e1a47cb-f16d-4169-851a-5985c6133055",
+                                                               "url":  "https://st03.sslstream.dlf.de/dlf/03/128/mp3/stream.mp3?aggregator=web"
+                                                           },
+                     "dj-club-charts-club-classics-festival-hits-remix":  {
+                                                                              "name":  "- DJ \u0026 CLUB CHARTS ---\u003e Club Classics, Festival-Hits, Remixes, Single Charts, Mashups, DJ Sets, Club Edits, Dancefloor, Underground, Nightlife, Party Anthems, Ibiza, Miami, Clubbing, Festival, Remix, Mashup, DJ, EDM,  RAVE, Dance, Urban, Latin, Beachclub, Lounge",
+                                                                              "uuid":  "3d9dcff7-8fd2-4eda-9d77-cfe259c62a70",
+                                                                              "url":  "https://breakz-2012-high.rautemusik.fm/?ref=rb-djclubcharts"
+                                                                          },
+                     "fritz":  {
+                                   "name":  "Fritz",
+                                   "uuid":  "960c1970-0601-11e8-ae97-52543be04c81",
+                                   "url":  "http://www.fritz.de/live.m3u"
+                               },
+                     "hit-radio-ffh":  {
+                                           "name":  "Hit Radio FFH",
+                                           "uuid":  "96056147-0601-11e8-ae97-52543be04c81",
+                                           "url":  "http://mp3.ffh.de/radioffh/hqlivestream.mp3"
+                                       },
+                     "hr1":  {
+                                 "name":  "HR1",
+                                 "uuid":  "600c73d1-2ea5-45ee-b3c1-c108674343e6",
+                                 "url":  "http://metafiles.gl-systemhaus.de/hr/hr1_2.m3u"
+                             },
+                     "hr3":  {
+                                 "name":  "HR3",
+                                 "uuid":  "c0646941-d526-44c2-ad99-dbb793678055",
+                                 "url":  "http://metafiles.gl-systemhaus.de/hr/hr3_2.m3u"
+                             },
+                     "ibiza-chillout-lounge-ambient-deep-house-baleari":  {
+                                                                              "name":  "IBIZA CHILLOUT LOUNGE - Ambient, Deep House, Balearic, Smooth Jazz, Acoustic, Chill House, Lo-Fi, Chillwave, Dream Pop, Electro, Tropical House, Sunset Chill, CafÃ© del Mar, Soft Electronica, Slow House, Ambient, Relax, Easy Listening, Beach Vibes, Summer",
+                                                                              "uuid":  "d271b4e8-a298-4862-9f4b-025c110cedd9",
+                                                                              "url":  "https://0nlineradio.radioho.st/lounge-ibiza-chillout-lounge?ref=rb26"
+                                                                          },
+                     "inforadio":  {
+                                       "name":  "Inforadio",
+                                       "uuid":  "960b77af-0601-11e8-ae97-52543be04c81",
+                                       "url":  "http://www.inforadio.de/live.m3u"
+                                   },
+                     "klassik-radio-live":  {
+                                                "name":  "Klassik Radio - Live",
+                                                "uuid":  "ffd351fe-219e-4c6e-b14f-9c2e02fbe45e",
+                                                "url":  "https://live.streams.klassikradio.de/klassikradio-deutschland/stream/mp3"
+                                            },
+                     "kontrafunk":  {
+                                        "name":  "kontrafunk",
+                                        "uuid":  "40532b34-f6a4-4009-b023-4110b8e7393f",
+                                        "url":  "https://icecast.multhielemedia.de/listen/kontrafunk/radio.mp3"
+                                    },
+                     "mangoradio":  {
+                                        "name":  "MANGORADIO",
+                                        "uuid":  "78012206-1aa1-11e9-a80b-52543be04c81",
+                                        "url":  "https://mangoradio.stream.laut.fm/mangoradio"
+                                    },
+                     "mdr-aktuell":  {
+                                         "name":  "MDR Aktuell",
+                                         "uuid":  "9608c0e3-0601-11e8-ae97-52543be04c81",
+                                         "url":  "http://avw.mdr.de/streams/284340-0_mp3_high.m3u"
+                                     },
+                     "mdr-jump":  {
+                                      "name":  "MDR Jump",
+                                      "uuid":  "961696dc-0601-11e8-ae97-52543be04c81",
+                                      "url":  "http://avw.mdr.de/streams/284320-0_mp3_high.m3u"
+                                  },
+                     "mdr-kultur":  {
+                                        "name":  "MDR Kultur",
+                                        "uuid":  "9612d85e-0601-11e8-ae97-52543be04c81",
+                                        "url":  "http://avw.mdr.de/streams/284310-0_mp3_high.m3u"
+                                    },
+                     "melodic-house-techno-technolovers-fm-chillout-be":  {
+                                                                              "name":  "Melodic House \u0026 Techno @ Technolovers.FM (Chillout, Beach, Festival, Sundowner, Relax, Ibiza, Sea, Ocean Music, Beachclub, Cocktailbar, 2024, 2025, 2026 Future Rave 126, 128, 124 Beats per Minute , BPM)",
+                                                                              "uuid":  "1aa5a707-c24c-4c5d-abcc-6f9b7a8f2f2e",
+                                                                              "url":  "https://stream.technolovers.fm/melodic-house-techno?ref=radiobrowser-2"
+                                                                          },
+                     "ndr-1-niedersachsen":  {
+                                                 "name":  "NDR 1 Niedersachsen",
+                                                 "uuid":  "b6240170-f81f-4fc7-9183-5f9ebbe8b8d8",
+                                                 "url":  "https://icecast.ndr.de/ndr/ndr1niedersachsen/hannover/mp3/128/stream.mp3?1728424471708\u0026aggregator=web"
+                                             },
+                     "ndr-2":  {
+                                   "name":  "NDR 2",
+                                   "uuid":  "9e3b0f8e-95d3-11e9-a605-52543be04c81",
+                                   "url":  "https://www.ndr.de/resources/metadaten/audio_ssl/m3u/ndr2.m3u"
+                               },
+                     "ndr-2-hamburg":  {
+                                           "name":  "NDR 2 Hamburg",
+                                           "uuid":  "9e535cb5-1bfd-4f83-9c3f-13571d01a487",
+                                           "url":  "https://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3?1728423809880\u0026aggregator=web"
+                                       },
+                     "ndr-2-niedersachsen":  {
+                                                 "name":  "NDR 2 - Niedersachsen",
+                                                 "uuid":  "87907038-dea4-49f2-ab4f-dc9cf76fd885",
+                                                 "url":  "https://www.ndr.de/resources/metadaten/audio/m3u/ndr2.m3u"
+                                             },
+                     "ndr-info-hamburg":  {
+                                              "name":  "NDR Info (Hamburg)",
+                                              "uuid":  "9648702b-0601-11e8-ae97-52543be04c81",
+                                              "url":  "http://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo_hh.m3u"
+                                          },
+                     "ndr-info-niedersachsen":  {
+                                                    "name":  "NDR Info (Niedersachsen)",
+                                                    "uuid":  "9639c07d-0601-11e8-ae97-52543be04c81",
+                                                    "url":  "http://www.ndr.de/resources/metadaten/audio/m3u/ndrinfo.m3u"
+                                                },
+                     "neuerscheinungen-radio-charts-dj-charts-club-cha":  {
+                                                                              "name":  "- NEUERSCHEINUNGEN - Radio Charts - DJ Charts - Club Charts - Top 100 - Top 40 Club - Pop, Hip-Hop, Dance, EDM, House, Techno, R\u0026B, Trap, Reggaeton, Afrobeat, Indie-Pop, Tropical House, Future Bass, Electro Swing, Synthwave, Deep House, Progressive House, Vocal House, DJ Sets, Remix, Mashup, Dancefloor, Festival-Hits, Club-Hits, Nightlife, Underground.",
+                                                                              "uuid":  "f1174669-b7ad-4668-8369-db995e6ecc8d",
+                                                                              "url":  "https://breakz-high.rautemusik.fm/?ref=rb-neuerscheinungen"
+                                                                          },
+                     "nius":  {
+                                  "name":  "NIUS",
+                                  "uuid":  "664e0f96-cdaa-4aa2-a362-1543e2dd2c36",
+                                  "url":  "http://radio.nius.de/live?ref=radiobrowser"
+                              },
+                     "n-joy":  {
+                                   "name":  "N-JOY",
+                                   "uuid":  "eac50ec2-a5ec-4600-a863-3116f40bcc41",
+                                   "url":  "https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3"
+                               },
+                     "oldie-antenne":  {
+                                           "name":  "OLDIE ANTENNE",
+                                           "uuid":  "87906f1e-5f82-4b86-9865-69e8eab8a69a",
+                                           "url":  "https://s1-webradio.oldie-antenne.de/oldie-antenne?aw_0_1st.playerid=OldieAntenneWebPlayer"
+                                       },
+                     "psyradio-fm-progressive":  {
+                                                     "name":  "psyradio * fm - progressive",
+                                                     "uuid":  "05eb782e-e789-4573-9771-27bfa417655c",
+                                                     "url":  "http://streamer.psyradio.org:8010/;listen.mp3"
+                                                 },
+                     "radio-bob":  {
+                                       "name":  "Radio BOB!",
+                                       "uuid":  "92556f58-20d3-44ae-8faa-322ce5f256c0",
+                                       "url":  "http://streams.radiobob.de/bob-national/mp3-192/mediaplayer"
+                                   },
+                     "radio-bob-bobs-alternative-rock":  {
+                                                             "name":  "RADIO BOB! BOBs Alternative Rock",
+                                                             "uuid":  "9618ca06-0601-11e8-ae97-52543be04c81",
+                                                             "url":  "http://streams.radiobob.de/bob-alternative/mp3-192/streams.radiobob.de/"
+                                                         },
+                     "radio-bob-classic-rock":  {
+                                                    "name":  "RADIO BOB! Classic Rock",
+                                                    "uuid":  "9618c8c0-0601-11e8-ae97-52543be04c81",
+                                                    "url":  "http://streams.radiobob.de/bob-classicrock/mp3-192/streams.radiobob.de/"
+                                                },
+                     "radio-bob-power-metal":  {
+                                                   "name":  "RADIO BOB - Power Metal",
+                                                   "uuid":  "35ecc442-1ba3-48ff-a874-cacc4e5867c1",
+                                                   "url":  "http://streams.radiobob.de/powermetal/mp3-192/streams.radiobob.de/"
+                                               },
+                     "radio-bollerwagen":  {
+                                               "name":  "Radio Bollerwagen",
+                                               "uuid":  "a3a695be-35ba-4a1a-b8e7-d90815f4b942",
+                                               "url":  "https://ffn-stream19.radiohost.de/radiobollerwagen_mp3-192?ref=radioplayer\u0026listenerid=31363233323633323031-323030333a64653a343731363a3730313a623731343a346664383a313761363a39386165-3537373636-4d6f7a696c6c612f352e3020285831313b205562"
+                                           },
+                     "radioeins":  {
+                                       "name":  "Radioeins",
+                                       "uuid":  "9f899cb2-8dd7-11e8-aa66-52543be04c81",
+                                       "url":  "http://www.radioeins.de/live.m3u"
+                                   },
+                     "radio-eins":  {
+                                        "name":  "Radio Eins",
+                                        "uuid":  "960553a5-0601-11e8-ae97-52543be04c81",
+                                        "url":  "http://radioeins.de/stream"
+                                    },
+                     "radioeins-high-quality":  {
+                                                    "name":  "RadioEins [High Quality]",
+                                                    "uuid":  "a2774eb5-924c-49af-897f-b3899a7f9777",
+                                                    "url":  "http://www.radioeins.de/livemp3"
+                                                },
+                     "rock-antenne":  {
+                                          "name":  "Rock Antenne",
+                                          "uuid":  "960594a6-0601-11e8-ae97-52543be04c81",
+                                          "url":  "http://mp3channels.webradio.rockantenne.de/rockantenne"
+                                      },
+                     "rockantenne-alternative-mp3":  {
+                                                         "name":  "ROCKANTENNE Alternative (mp3)",
+                                                         "uuid":  "d608bb74-0740-47e3-a1e2-c11edfeec91f",
+                                                         "url":  "https://stream.rockantenne.de/alternative/stream/mp3"
+                                                     },
+                     "rock-antenne-classic-perlen":  {
+                                                         "name":  "ROCK ANTENNE Classic Perlen",
+                                                         "uuid":  "960c3f9b-0601-11e8-ae97-52543be04c81",
+                                                         "url":  "http://mp3channels.webradio.rockantenne.de/classic-perlen"
+                                                     },
+                     "rock-antenne-heavy-metal":  {
+                                                      "name":  "Rock Antenne - Heavy Metal",
+                                                      "uuid":  "960cca40-0601-11e8-ae97-52543be04c81",
+                                                      "url":  "http://mp3channels.webradio.rockantenne.de/heavy-metal"
+                                                  },
+                     "schlagerparadies":  {
+                                              "name":  "Schlagerparadies",
+                                              "uuid":  "9607be6f-0601-11e8-ae97-52543be04c81",
+                                              "url":  "http://www.surfmusik.de/m3u/schlagerparadies,9490.m3u"
+                                          },
+                     "sunshine-live":  {
+                                           "name":  "Sunshine Live",
+                                           "uuid":  "960d063e-0601-11e8-ae97-52543be04c81",
+                                           "url":  "http://stream.sunshine-live.de/live/mp3-192/stream.sunshine-live.de/"
+                                       },
+                     "sunshine-live-die-90er":  {
+                                                    "name":  "Sunshine Live - Die 90er",
+                                                    "uuid":  "962c0376-0601-11e8-ae97-52543be04c81",
+                                                    "url":  "http://stream.sunshine-live.de/90er/mp3-192/stream.sunshine-live.de"
+                                                },
+                     "sunshine-live-techno":  {
+                                                  "name":  "Sunshine Live - Techno",
+                                                  "uuid":  "9627c2e6-0601-11e8-ae97-52543be04c81",
+                                                  "url":  "http://stream.sunshine-live.de/techno/mp3-192/stream.sunshine-live.de/"
+                                              },
+                     "swr1-bw":  {
+                                     "name":  "SWR1 BW",
+                                     "uuid":  "36a6d57a-4d8a-45e3-aad9-7931c6e43c56",
+                                     "url":  "https://liveradio.swr.de/sw282p3/swr1bw/play.mp3"
+                                 },
+                     "swr3":  {
+                                  "name":  "SWR3",
+                                  "uuid":  "240d28b9-7858-48d2-a816-9cf8e1875fe8",
+                                  "url":  "https://liveradio.swr.de/sw282p3/swr3/play.mp3"
+                              },
+                     "swr-3-128-kbits-mp3":  {
+                                                 "name":  "SWR 3 (128 kbits mp3)",
+                                                 "uuid":  "96f98cbd-3287-4a19-ac5d-b06c7982f8ba",
+                                                 "url":  "https://liveradio.swr.de/sw282p3/swr3/play.mp3"
+                                             },
+                     "swr4-bw-48-aac":  {
+                                            "name":  "SWR4 BW [48 aac]",
+                                            "uuid":  "54e4b1de-0156-4972-a14e-580111522b44",
+                                            "url":  "https://liveradio.swr.de/sw890cl/swr4bw/"
+                                        },
+                     "technobase-fm":  {
+                                           "name":  "TechnoBase.FM",
+                                           "uuid":  "",
+                                           "url":  "https://listen.technobase.fm/tunein-mp3"
+                                       },
+                     "techno-by-rautemusik-fm":  {
+                                                     "name":  "__TECHNO__ by rautemusik.fm",
+                                                     "uuid":  "18ab1514-a53b-4f44-936e-f8583a68b5aa",
+                                                     "url":  "https://streams.rautemusik.fm/techno/mp3-192/?ref=radiobrowser"
+                                                 },
+                     "top-100-charts-dj-mixes-pop-rock-dance-house-tec":  {
+                                                                              "name":  "-- # TOP 100 CHARTS --- DJ MIXES -- Pop, Rock, Dance, House, Techno, Trance, Electro, Hip-Hop, Rap, RnB, Reggaeton, Latin, Jazz, Blues, Soul, Funk, Metal, Indie, Alternative, Chillout, Lounge, Ambient, Classical, Acoustic, Party, Hits, Charts, Oldies, 80s, 90s, EDM, Club, Deep House, Tropical, Mood, Love Songs, Workout, Relax",
+                                                                              "uuid":  "d06dd5cb-97f4-48f6-8146-ec89e7b94cc0",
+                                                                              "url":  "https://breakz-high.rautemusik.fm/?ref=rb-djclubcharts0326"
+                                                                          },
+                     "top-100-club-charts-dance-dj-mix-radio-24-hours":  {
+                                                                             "name":  "# TOP 100 CLUB CHARTS - DANCE \u0026 DJ MIX RADIO - 24 HOURS NON-STOP MUSIC @ TikTok Hits, Ibiza House, Sunset Lounge, Melodic Music, EDM, Deep House, Dance Music, Techno \u0026 Hypertechno, Rave Charts, Top 40 Charts, Latin, Reggaeton Music, Moombahton, Urban Hits, HipHop, Party \u0026 Clubbing Radio, Trending Chartmusic, R\u0026B, Urban, Mixtape - \u0026 LIVE DJ SET",
+                                                                             "uuid":  "dd98c499-a0c4-4019-a35e-99caa6940407",
+                                                                             "url":  "https://breakz-2012-high.rautemusik.fm/?ref=radiobrowser-top100-clubcharts"
+                                                                         },
+                     "top-100-dj-charts-dj-remix-charts-radio-tiktok-c":  {
+                                                                              "name":  "# TOP 100 DJ CHARTS - DJ REMIX \u0026 CHARTS RADIO @ TikTok Charts, Electronic Music, EDM, House, Deep House, Dance Music, Techno \u0026 Hypertechno, Top40, Latin Charts, Reggaeton, Urban, HipHop, Club \u0026 Party Radio - \u0026 LIVE DJ SETS",
+                                                                              "uuid":  "5bc44bcd-7481-40e1-b503-bb92b936f4cf",
+                                                                              "url":  "https://breakz-high.rautemusik.fm/?ref=radiobrowser-top100-djcharts"
+                                                                          },
+                     "top-100-dj-charts-remix-deejay-radio-club-radio":  {
+                                                                             "name":  "- TOP 100 - DJ Charts - / - REMIX DEEJAY RADIO - CLUB RADIO - HOUSE - EDM - TECHHOUSE - TECHNO - DANCE - TOP100 - TOP40 - RNB - BLACKMUSIC - HIPHOP - URBAN - REGGEATON - MIXTAPE RADIO - RAVE MUSIC -  LIVE DEEJAY RADIO - LIVE EVENTS",
+                                                                             "uuid":  "29717342-f376-48a3-93a6-3dae781e6c92",
+                                                                             "url":  "https://radio2.breakz.fm/?ref=rb-gpt-t100"
+                                                                         },
+                     "trancebase-fm-aac-hd-256k":  {
+                                                       "name":  "TranceBase.FM - AAC HD 256k",
+                                                       "uuid":  "342a0e53-ab9b-11e9-88f4-52543be04c81",
+                                                       "url":  "http://listen.trancebase.fm/tunein-aac-hd-pls"
+                                                   },
+                     "trance-by-rautemusik-rm-fm":  {
+                                                        "name":  "__TRANCE__ by rautemusik (rm.fm)",
+                                                        "uuid":  "8f1e8acf-2ce6-4542-a423-bc29ea514e4a",
+                                                        "url":  "https://trance-high.rautemusik.fm/?ref=radiobrowser"
+                                                    },
+                     "wdr-2-rheinland":  {
+                                             "name":  "WDR 2 Rheinland",
+                                             "uuid":  "9605ec6a-0601-11e8-ae97-52543be04c81",
+                                             "url":  "http://wdr-wdr2-rheinland.icecast.wdr.de/wdr/wdr2/rheinland/mp3/128/stream.mp3"
+                                         },
+                     "wdr-2-ruhrgebiet":  {
+                                              "name":  "WDR 2 Ruhrgebiet",
+                                              "uuid":  "b61115e1-d005-4bcf-b64d-540b40f504a8",
+                                              "url":  "https://wdr-wdr2-ruhrgebiet.icecastssl.wdr.de/wdr/wdr2/ruhrgebiet/mp3/128/stream.mp3"
+                                          },
+                     "wdr4":  {
+                                  "name":  "WDR4",
+                                  "uuid":  "44ee797f-b7c4-4f94-8853-ce9a9c8731ed",
+                                  "url":  "https://wdr-wdr4-live.icecastssl.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3"
+                              },
+                     "wdr-4":  {
+                                   "name":  "WDR 4",
+                                   "uuid":  "905f3c23-60fc-4636-9e82-9d33078b8793",
+                                   "url":  "http://wdr-wdr4-live.icecast.wdr.de/wdr/wdr4/live/mp3/128/stream.mp3"
+                               },
+                     "wdr-5":  {
+                                   "name":  "WDR 5",
+                                   "uuid":  "9605edb3-0601-11e8-ae97-52543be04c81",
+                                   "url":  "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3"
+                               },
+                     "wdr-cosmo":  {
+                                       "name":  "WDR COSMO",
+                                       "uuid":  "9605ced9-0601-11e8-ae97-52543be04c81",
+                                       "url":  "http://wdr-cosmo-live.icecast.wdr.de/wdr/cosmo/live/mp3/128/stream.mp3"
+                                   }
+                 }
+}

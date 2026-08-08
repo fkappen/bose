@@ -1,0 +1,17 @@
+{
+    "name":  "90s90s HipHop \u0026 Rap",
+    "streamType":  "liveRadio",
+    "imageUrl":  "http://aggregatorservice.loverad.io/wp-content/uploads/2018/10/90s90s_hiphoprap_600x600.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://streams.90s90s.de/hiphop/mp3-192/streams.90s90s.de/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://streams.90s90s.de/hiphop/mp3-192/streams.90s90s.de/"
+                                  }
+                              ]
+              }
+}

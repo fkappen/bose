@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sources>
+    <source displayName="AUX IN" secret="" secretType="">
+        <sourceKey type="AUX" account="AUX" />
+    </source>
+    <source secret="" secretType="token">
+        <sourceKey type="TUNEIN" account="" />
+    </source>
+    <source secret="" secretType="token">
+        <sourceKey type="LOCAL_INTERNET_RADIO" account="" />
+    </source>
+</sources>

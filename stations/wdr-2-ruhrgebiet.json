@@ -1,0 +1,17 @@
+{
+    "name":  "WDR 2 Ruhrgebiet",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www1.wdr.de/resources-v5.139.1/img/favicon/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://wdr-wdr2-ruhrgebiet.icecastssl.wdr.de/wdr/wdr2/ruhrgebiet/mp3/128/stream.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://wdr-wdr2-ruhrgebiet.icecastssl.wdr.de/wdr/wdr2/ruhrgebiet/mp3/128/stream.mp3"
+                                  }
+                              ]
+              }
+}

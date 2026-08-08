@@ -1,0 +1,17 @@
+{
+    "name":  "0R - PIANO JAZZ LOUNGE || Jazz, Piano, Lounge, Smooth, Chill, Relax, Soft, Acoustic, Instrumental, Evening, Romantic, Background, Coffee, Mellow, Elegant",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/MkhwYrRM/Piano-Jazz-Lounge.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://0nlineradio.radioho.st/lounge-piano-jazz-bar?ref=radio-browser26",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://0nlineradio.radioho.st/lounge-piano-jazz-bar?ref=radio-browser26"
+                                  }
+                              ]
+              }
+}

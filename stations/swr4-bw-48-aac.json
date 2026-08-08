@@ -1,0 +1,17 @@
+{
+    "name":  "SWR4 BW [48 aac]",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.swr.de/assets/swr/swr4/apple-touch-icon-180x180.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://liveradio.swr.de/sw890cl/swr4bw/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://liveradio.swr.de/sw890cl/swr4bw/"
+                                  }
+                              ]
+              }
+}

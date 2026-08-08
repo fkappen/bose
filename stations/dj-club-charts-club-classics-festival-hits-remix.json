@@ -1,0 +1,17 @@
+{
+    "name":  "- DJ \u0026 CLUB CHARTS ---\u003e Club Classics, Festival-Hits, Remixes, Single Charts, Mashups, DJ Sets, Club Edits, Dancefloor, Underground, Nightlife, Party Anthems, Ibiza, Miami, Clubbing, Festival, Remix, Mashup, DJ, EDM,  RAVE, Dance, Urban, Latin, Beachclub, Lounge",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/P7QHpGB/DJ-CLUB-CHARTS-LOGO.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://breakz-2012-high.rautemusik.fm/?ref=rb-djclubcharts",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://breakz-2012-high.rautemusik.fm/?ref=rb-djclubcharts"
+                                  }
+                              ]
+              }
+}

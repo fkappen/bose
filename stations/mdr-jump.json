@@ -1,0 +1,17 @@
+{
+    "name":  "MDR Jump",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://cdn.mdrjump.de/resources/jump/img/favicons/apple-icon-120x120.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://avw.mdr.de/streams/284320-0_mp3_high.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://avw.mdr.de/streams/284320-0_mp3_high.m3u"
+                                  }
+                              ]
+              }
+}

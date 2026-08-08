@@ -1,0 +1,17 @@
+{
+    "name":  "NDR 2 Hamburg",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.phonostar.de/images/auto_created/NDR22184x184.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3?1728423809880\u0026aggregator=web",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3?1728423809880\u0026aggregator=web"
+                                  }
+                              ]
+              }
+}

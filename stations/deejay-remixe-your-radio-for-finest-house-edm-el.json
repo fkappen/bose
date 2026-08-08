@@ -1,0 +1,17 @@
+{
+    "name":  "_DEEJAY REMIXE_ Your Radio for finest House, EDM, Electro, Dance, Mashup, Hypertechno, Techno, Bootleg, Charts, Top40, Chillout, Lounge, HipHop, Urban \u0026 Latin Party DJ Remixes!",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/sP4q4Wh/breakz-fm-logo-fav.png ",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://breakz-high.rautemusik.fm/?ref=radiobrowser-deejay-remixes-radio",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://breakz-high.rautemusik.fm/?ref=radiobrowser-deejay-remixes-radio"
+                                  }
+                              ]
+              }
+}

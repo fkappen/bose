@@ -1,0 +1,17 @@
+{
+    "name":  "IBIZA CHILLOUT LOUNGE - Ambient, Deep House, Balearic, Smooth Jazz, Acoustic, Chill House, Lo-Fi, Chillwave, Dream Pop, Electro, Tropical House, Sunset Chill, CafÃ© del Mar, Soft Electronica, Slow House, Ambient, Relax, Easy Listening, Beach Vibes, Summer",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/jPkfdprq/rb-Ibiza.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://0nlineradio.radioho.st/lounge-ibiza-chillout-lounge?ref=rb26",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://0nlineradio.radioho.st/lounge-ibiza-chillout-lounge?ref=rb26"
+                                  }
+                              ]
+              }
+}

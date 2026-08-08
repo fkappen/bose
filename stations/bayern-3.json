@@ -1,0 +1,17 @@
+{
+    "name":  "Bayern 3",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://api.ardmediathek.de/image-service/images/urn:ard:image:52fd25fc45de7c6a?w=512",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://dispatcher.rndfnk.com/br/br3/live/mp3/mid",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://dispatcher.rndfnk.com/br/br3/live/mp3/mid"
+                                  }
+                              ]
+              }
+}

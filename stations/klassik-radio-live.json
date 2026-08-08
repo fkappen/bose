@@ -1,0 +1,17 @@
+{
+    "name":  "Klassik Radio - Live",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://klassikradio.de/img/ms-mediumtile.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://live.streams.klassikradio.de/klassikradio-deutschland/stream/mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://live.streams.klassikradio.de/klassikradio-deutschland/stream/mp3"
+                                  }
+                              ]
+              }
+}

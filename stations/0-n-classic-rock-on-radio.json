@@ -1,0 +1,17 @@
+{
+    "name":  "- 0 N - Classic Rock on Radio",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.0nradio.com/logos/0n-classic-rock_600x600.jpg",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://0n-classicrock.radionetz.de/0n-classicrock.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://0n-classicrock.radionetz.de/0n-classicrock.mp3"
+                                  }
+                              ]
+              }
+}

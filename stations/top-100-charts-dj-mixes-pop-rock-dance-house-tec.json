@@ -1,0 +1,17 @@
+{
+    "name":  "-- # TOP 100 CHARTS --- DJ MIXES -- Pop, Rock, Dance, House, Techno, Trance, Electro, Hip-Hop, Rap, RnB, Reggaeton, Latin, Jazz, Blues, Soul, Funk, Metal, Indie, Alternative, Chillout, Lounge, Ambient, Classical, Acoustic, Party, Hits, Charts, Oldies, 80s, 90s, EDM, Club, Deep House, Tropical, Mood, Love Songs, Workout, Relax",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/m5695X1x/T100-BRR-CH.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://breakz-high.rautemusik.fm/?ref=rb-djclubcharts0326",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://breakz-high.rautemusik.fm/?ref=rb-djclubcharts0326"
+                                  }
+                              ]
+              }
+}

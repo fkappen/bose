@@ -1,0 +1,17 @@
+{
+    "name":  "ROCKANTENNE Alternative (mp3)",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.rockantenne.de/logos/station-rock-antenne/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://stream.rockantenne.de/alternative/stream/mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://stream.rockantenne.de/alternative/stream/mp3"
+                                  }
+                              ]
+              }
+}

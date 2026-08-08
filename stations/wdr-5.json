@@ -1,0 +1,17 @@
+{
+    "name":  "WDR 5",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www1.wdr.de/resources-v5.134.1/img/favicon/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://wdr-wdr5-live.icecast.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3"
+                                  }
+                              ]
+              }
+}

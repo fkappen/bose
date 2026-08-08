@@ -1,0 +1,17 @@
+{
+    "name":  "1LIVE",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www1.wdr.de/radio/1live/resources/img/favicon/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3"
+                                  }
+                              ]
+              }
+}

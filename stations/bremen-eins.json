@@ -1,0 +1,17 @@
+{
+    "name":  "Bremen Eins",
+    "streamType":  "liveRadio",
+    "imageUrl":  "http://www.radiobremen.de/static/img/favicons/apple-touch-icon-180.png?v=4",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://www.surfmusik.de/m3u/station/bremen-eins,8566.m3u",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://www.surfmusik.de/m3u/station/bremen-eins,8566.m3u"
+                                  }
+                              ]
+              }
+}

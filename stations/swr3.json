@@ -1,0 +1,17 @@
+{
+    "name":  "SWR3",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://swr3.de/assets/swr3/icons/apple-touch-icon.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://liveradio.swr.de/sw282p3/swr3/play.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://liveradio.swr.de/sw282p3/swr3/play.mp3"
+                                  }
+                              ]
+              }
+}

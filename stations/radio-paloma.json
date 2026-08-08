@@ -1,0 +1,17 @@
+{
+  "name": "Radio Paloma",
+  "streamType": "liveRadio",
+  "imageUrl": "https://schlager.radio/wp-content/uploads/2020/11/cropped-radio-paloma-fav-180x180.png",
+  "audio": {
+    "isRealtime": true,
+    "hasPlaylist": true,
+    "streamUrl": "http://icepool.silvacast.com/RADIOPALOMA.mp3",
+    "streams": [
+      {
+        "isRealtime": true,
+        "hasPlaylist": true,
+        "streamUrl": "http://icepool.silvacast.com/RADIOPALOMA.mp3"
+      }
+    ]
+  }
+}

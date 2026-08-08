@@ -1,0 +1,17 @@
+{
+    "name":  "Antenne Sylt - Sylt/Flensburg",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.deutsches-staedte-network.de/static_sites/albumartwork/ASY_600x600/sylt-hfk.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://streams.antenne-sylt.de/festland/mp3-192/konsoleplayer",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://streams.antenne-sylt.de/festland/mp3-192/konsoleplayer"
+                                  }
+                              ]
+              }
+}

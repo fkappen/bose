@@ -1,0 +1,17 @@
+{
+    "name":  "Sunshine Live - Techno",
+    "streamType":  "liveRadio",
+    "imageUrl":  "",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://stream.sunshine-live.de/techno/mp3-192/stream.sunshine-live.de/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://stream.sunshine-live.de/techno/mp3-192/stream.sunshine-live.de/"
+                                  }
+                              ]
+              }
+}

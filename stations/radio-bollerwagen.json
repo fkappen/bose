@@ -1,0 +1,17 @@
+{
+    "name":  "Radio Bollerwagen",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.radio.de/images/broadcasts/80/eb/100349/3/c300.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://ffn-stream19.radiohost.de/radiobollerwagen_mp3-192?ref=radioplayer\u0026listenerid=31363233323633323031-323030333a64653a343731363a3730313a623731343a346664383a313761363a39386165-3537373636-4d6f7a696c6c612f352e3020285831313b205562",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://ffn-stream19.radiohost.de/radiobollerwagen_mp3-192?ref=radioplayer\u0026listenerid=31363233323633323031-323030333a64653a343731363a3730313a623731343a346664383a313761363a39386165-3537373636-4d6f7a696c6c612f352e3020285831313b205562"
+                                  }
+                              ]
+              }
+}

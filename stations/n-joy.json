@@ -1,0 +1,17 @@
+{
+    "name":  "N-JOY",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.phonostar.de/images/auto_created/NJOY3184x184.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://icecast.ndr.de/ndr/njoy/live/mp3/128/stream.mp3"
+                                  }
+                              ]
+              }
+}

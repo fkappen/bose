@@ -1,0 +1,17 @@
+{
+    "name":  "- TOP 100 - DJ Charts - / - REMIX DEEJAY RADIO - CLUB RADIO - HOUSE - EDM - TECHHOUSE - TECHNO - DANCE - TOP100 - TOP40 - RNB - BLACKMUSIC - HIPHOP - URBAN - REGGEATON - MIXTAPE RADIO - RAVE MUSIC -  LIVE DEEJAY RADIO - LIVE EVENTS",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://i.ibb.co/b7gfKT6/TOP-100-DJ-CHARTS-GPT.jpg",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://radio2.breakz.fm/?ref=rb-gpt-t100",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://radio2.breakz.fm/?ref=rb-gpt-t100"
+                                  }
+                              ]
+              }
+}

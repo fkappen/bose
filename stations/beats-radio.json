@@ -1,0 +1,17 @@
+{
+    "name":  "Beats Radio",
+    "streamType":  "liveRadio",
+    "imageUrl":  "",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://live.streams.klassikradio.de/beats-radio/stream/mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://live.streams.klassikradio.de/beats-radio/stream/mp3"
+                                  }
+                              ]
+              }
+}

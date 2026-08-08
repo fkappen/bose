@@ -1,0 +1,17 @@
+{
+    "name":  "__TECHNO__ by rautemusik.fm",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://rm.fm/favicon.ico",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://streams.rautemusik.fm/techno/mp3-192/?ref=radiobrowser",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://streams.rautemusik.fm/techno/mp3-192/?ref=radiobrowser"
+                                  }
+                              ]
+              }
+}

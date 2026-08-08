@@ -1,0 +1,17 @@
+{
+    "name":  "Deutschlandfunk | DLF | AAC 96k",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://www.deutschlandfunk.de/static/img/deutschlandfunk/icons/apple-touch-icon-128x128.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://st01.sslstream.dlf.de/dlf/01/mid/aac/stream.aac?aggregator=web",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://st01.sslstream.dlf.de/dlf/01/mid/aac/stream.aac?aggregator=web"
+                                  }
+                              ]
+              }
+}

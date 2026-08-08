@@ -1,0 +1,17 @@
+{
+    "name":  "kontrafunk",
+    "streamType":  "liveRadio",
+    "imageUrl":  "https://kontrafunk.radio/templates/yootheme/cache/af/logo_KF_vogel_mittig_subline-af5b9047.png",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "https://icecast.multhielemedia.de/listen/kontrafunk/radio.mp3",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "https://icecast.multhielemedia.de/listen/kontrafunk/radio.mp3"
+                                  }
+                              ]
+              }
+}

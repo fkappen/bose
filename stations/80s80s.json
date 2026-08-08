@@ -1,0 +1,17 @@
+{
+    "name":  "80s80s",
+    "streamType":  "liveRadio",
+    "imageUrl":  "",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/"
+                                  }
+                              ]
+              }
+}

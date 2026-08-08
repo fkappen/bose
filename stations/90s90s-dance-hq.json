@@ -1,0 +1,17 @@
+{
+    "name":  "90s90s Dance HQ",
+    "streamType":  "liveRadio",
+    "imageUrl":  "",
+    "audio":  {
+                  "isRealtime":  true,
+                  "hasPlaylist":  true,
+                  "streamUrl":  "http://streams.90s90s.de/eurodance/mp3-192/radiode/",
+                  "streams":  [
+                                  {
+                                      "isRealtime":  true,
+                                      "hasPlaylist":  true,
+                                      "streamUrl":  "http://streams.90s90s.de/eurodance/mp3-192/radiode/"
+                                  }
+                              ]
+              }
+}
