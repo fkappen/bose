@@ -161,6 +161,53 @@ Praktische Huerde im eigenen Netz: Die Box muss den PC erreichen koennen -
 also die Gegenrichtung ueber die VLAN-Grenze, die typischerweise gesperrt
 ist.
 
+### Selbst getestet (12.08.2026, PC und Box im selben VLAN)
+
+Der Weg wurde bis zu einem klaren Punkt nachgebaut. Was dabei bestaetigt
+wurde:
+
+- **`sys configuration <XMLTag> <XMLValue>`** ist ein regulaerer Setter auf
+  der Telnet-Konsole. Damit lassen sich `bmxRegistryUrl`, `margeServerUrl`,
+  `statsServerUrl`, `swUpdateUrl` direkt setzen. `[GEPRUEFT]`
+- **Commit-Reihenfolge:** `sys configuration` zuerst, `envswitch boseurls`
+  zuletzt - envswitch committet die Laufzeitebene so, wie sie beim Aufruf
+  steht. In dieser Reihenfolge ueberlebte die Aenderung den Neustart, in der
+  anderen nicht. `[GEPRUEFT]`
+- **Die Box erreicht den PC.** Ein einfacher HTTP-Listener auf dem PC wurde
+  von der Box abgerufen - Windows-Firewall im selben VLAN kein Hindernis.
+  `[GEPRUEFT]`
+- **Der Marge-Handshake laeuft.** Nach `POST /setMargeAccount` (Body
+  `PairDeviceWithAccount`) ruft die Box den PC-Listener ab:
+  `POST /streaming/account/<id>/device/`, dann `GET /sourceproviders`, dann
+  `GET /streaming/account/<id>/full`. `[GEPRUEFT]`
+
+Wo es haengenblieb:
+
+- **`margeAccountUUID` persistierte nicht.** Die device-Antwort braucht laut
+  streborn `internal/marge/responses.go` die Header `METHOD_NAME: addDevice`,
+  `Credentials: Bearer <token>` und `Location: <pfad>` plus Status 201 und den
+  gewickelten `<response><adddeviceresponse><margetoken>`-Body. Diese Header
+  wurden ergaenzt - die Box akzeptierte das Konto trotzdem nicht dauerhaft.
+  Es fehlen weitere Handshake-Details (u.a. eine `/full`-Antwort, die das
+  Geraet in einer echten `<devices>`-Struktur enthaelt, sonst verwirft die
+  Firmware das Konto).
+
+**Fazit:** Der vollstaendige Marge-Handshake ist kein uebernehmbares Snippet,
+sondern der Kern von streborn (`internal/marge/`, `internal/bmx/`,
+`internal/webui/` - tausende Zeilen, ueber Monate an vielen Geraeten
+reverse-engineert). Und selbst ein perfekter Handshake liefert **kein**
+`LOCAL_INTERNET_RADIO`: Er oeffnet nur die Injektion (curl|sh = root). Radio
+braucht anschliessend die `Sources.xml` im Dateisystem, also root-Zugriff.
+
+Fuer eine fabrikfrische Box ist der pragmatische Weg deshalb:
+1. streborn **einmalig** laufen lassen - es loest Handshake und root und legt
+   die Quellen an.
+2. Danach mit `Install-BoseRadio` aus diesem Repo die Registry auf das eigene
+   Repository umbiegen und den streborn-Agent bei Bedarf wieder entfernen.
+
+Eine Box, die frueher ein Bose-Konto hatte (`margeAccountUUID` gefuellt),
+braucht das alles nicht - dort greift der einfache Weg direkt.
+
 Der Werkszustand dieser Variable ist **unbekannt**. Es gibt keinen bekannten Weg,
 ihn auszulesen. Als harmloser Platzhalter eignet sich `;true`. `[ANNAHME]`
 
