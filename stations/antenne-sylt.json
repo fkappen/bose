@@ -1,16 +1,16 @@
 {
     "name":  "Antenne Sylt",
     "streamType":  "liveRadio",
-    "imageUrl":  "https://www.deutsches-staedte-network.de/static_sites/albumartwork/ASY_600x600/sylt_s.png",
+    "imageUrl":  "",
     "audio":  {
                   "isRealtime":  true,
                   "hasPlaylist":  true,
-                  "streamUrl":  "https://streams.antenne-sylt.de/sylt/mp3-192/konsoleplayer",
+                  "streamUrl":  "https://radio21.streamabc.net/radio21-rrneuwied-mp3-128-4931968",
                   "streams":  [
                                   {
                                       "isRealtime":  true,
                                       "hasPlaylist":  true,
-                                      "streamUrl":  "https://streams.antenne-sylt.de/sylt/mp3-192/konsoleplayer"
+                                      "streamUrl":  "https://radio21.streamabc.net/radio21-rrneuwied-mp3-128-4931968"
                                   }
                               ]
               }

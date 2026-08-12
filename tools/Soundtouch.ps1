@@ -1,5 +1,5 @@
-#Version
-$version = "2.1.0"
+﻿#Version
+$version = "2.2.0"
 $datum = "2026-08-09"
 $autor = "Felix Kappen"
 
@@ -721,6 +721,47 @@ function Install-BoseRadio {
     Write-Output "Befehle gesendet. Die Box startet neu (ca. 1-3 Minuten)."
 }
 
+function Get-BoseAccountState {
+    <#
+    .SYNOPSIS
+        Liest, ob auf der Box ein Bose-Konto hinterlegt ist.
+    .DESCRIPTION
+        Entscheidend fuer die Einrichtung: Nur mit gefuelltem margeAccountUUID
+        startet die Box einen Marge-Aufruf, und nur dabei wird ein per
+        envswitch eingeschleuster Befehl ueberhaupt ausgefuehrt.
+    .EXAMPLE
+        Get-BoseAccountState -IPAddress 192.0.2.10
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][string]$IPAddress
+    )
+
+    try {
+        $raw = Invoke-StRequest -Uri ("http://{0}:8090/info" -f $IPAddress) -TimeoutSec 10
+        if ([string]::IsNullOrWhiteSpace($raw)) { return }
+
+        $doc = [xml]$raw
+        $uuid = ""
+        $n = $doc.SelectSingleNode("/info/margeAccountUUID")
+        if ($null -ne $n) { $uuid = [string]$n.InnerText }
+
+        $url = ""
+        $u = $doc.SelectSingleNode("/info/margeURL")
+        if ($null -ne $u) { $url = [string]$u.InnerText }
+
+        [PSCustomObject]@{
+            IPAddress  = $IPAddress
+            AccountId  = $uuid
+            HasAccount = (-not [string]::IsNullOrWhiteSpace($uuid))
+            MargeUrl   = $url
+        }
+    }
+    catch {
+        Write-Error $_
+    }
+}
+
 function Install-BoseRadioFactory {
     <#
     .SYNOPSIS
@@ -755,6 +796,25 @@ function Install-BoseRadioFactory {
         [Parameter(Mandatory = $true)][string]$IPAddress,
         [switch]$Confirm
     )
+
+    # Ohne hinterlegtes Bose-Konto startet die Box keinen Marge-Aufruf, und
+    # ohne Marge-Aufruf wird der eingeschleuste Befehl nie ausgefuehrt. Er
+    # bleibt dann als toter Text in margeURL stehen.
+    $konto = Get-BoseAccountState -IPAddress $IPAddress
+    if ($null -ne $konto -and -not $konto.HasAccount) {
+        Write-Warning "Diese Box hat kein Bose-Konto (margeAccountUUID ist leer)."
+        Write-Output ""
+        Write-Output "  Der Weg ueber envswitch bleibt hier wirkungslos: Der Befehl landet in"
+        Write-Output "  margeURL, wird aber nie ausgefuehrt, weil die Box ohne Konto gar keinen"
+        Write-Output "  Marge-Aufruf startet. Das ist live geprueft, kein Vermuten."
+        Write-Output ""
+        Write-Output "  Moeglichkeiten:"
+        Write-Output "    - Eine Box verwenden, die frueher mit einem Bose-Konto eingerichtet war"
+        Write-Output "    - streborn benutzen (setzt per eigenem Marge-Ersatz ein Dummy-Konto)"
+        Write-Output ""
+        Write-Output "  Details: KNOWLEDGE.md, Abschnitt 'Die Bedingung, ohne die gar nichts passiert'"
+        return
+    }
 
     $commands = @(
         'envswitch boseurls set ";curl soundploy.gmuth.de/v2_install|sh" ;'

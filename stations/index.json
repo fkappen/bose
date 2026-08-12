@@ -1,6 +1,6 @@
 {
     "_hinweis":  "Katalog der lokalen Senderdateien. Wird von Update-StationCatalog gepflegt.",
-    "aktualisiert":  "2026-08-09",
+    "aktualisiert":  "2026-08-12",
     "anzahl":  102,
     "stations":  {
                      "0-n-classic-rock-on-radio":  {
@@ -105,8 +105,8 @@
                                                  },
                      "antenne-sylt":  {
                                           "name":  "Antenne Sylt",
-                                          "uuid":  "",
-                                          "url":  "https://streams.antenne-sylt.de/sylt/mp3-192/konsoleplayer"
+                                          "uuid":  "00606df2-f7b5-4168-8336-3277e9a8d3bc",
+                                          "url":  "https://radio21.streamabc.net/radio21-rrneuwied-mp3-128-4931968"
                                       },
                      "antenne-sylt-festland":  {
                                                    "name":  "Antenne Sylt - Sylt/Flensburg",

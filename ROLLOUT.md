@@ -84,32 +84,42 @@ Install-BoseRadio -IPAddress $ip `
 
 Die Box startet neu (1-3 Minuten).
 
-### 3b. Fabrikfrische Box
+### 3b. Fabrikfrische Box - Achtung, geht so NICHT
 
-Hier fehlen beide Dateien, ein `sed` laeuft ins Leere. Sie muessen erst angelegt
-werden. Dafuer gibt es zwei Wege:
-
-**Weg 1, empfohlen:** einmalig den Installer von SoundPloy laufen lassen, der
-ueber einfaches HTTP arbeitet und nachweislich funktioniert - danach sofort auf
-dieses Repo umbiegen. Das vertraut dem fremden Server genau einen Bootvorgang
-lang.
+Hier fehlen `Sources.xml` und `OverrideSdkPrivateCfg.xml`. Naheliegend waere,
+einfach den SoundPloy-Installer anzustossen:
 
 ```
-# Telnet auf Port 17000
 envswitch boseurls set ";curl soundploy.gmuth.de/v2_install|sh" ;
 sys reboot
 ```
 
-Nach dem Neustart weiter mit **3a**.
+**Das bleibt wirkungslos.** Live geprueft an einer fabrikfrischen SoundTouch 10:
+Der Befehl landet im Feld `margeURL`, wird aber nie ausgefuehrt.
 
-**Weg 2:** [`device/install.sh`](device/install.sh) aus diesem Repo per `curl`
-laden. Setzt voraus, dass der `curl` auf der Box HTTPS beherrscht und Redirects
-folgt - **beides ist nicht verifiziert**.
+Der Grund: Die Injektion feuert nur, wenn die Box einen Marge-Aufruf an die
+Bose-Cloud startet - und das tut sie ausschliesslich mit hinterlegtem
+Bose-Konto. Bei einer fabrikfrischen Box ist `margeAccountUUID` leer.
+Kontrolle:
 
+```powershell
+Invoke-WebRequest "http://$ip:8090/info" -UseBasicParsing
 ```
-envswitch boseurls set ";curl -L https://raw.githubusercontent.com/fkappen/bose/main/device/install.sh|sh" ;
-sys reboot
-```
+
+Steht dort `<margeAccountUUID></margeAccountUUID>`, greift **kein** Weg ueber
+`envswitch`, auch nicht der mit `install.sh` aus diesem Repo.
+
+Details und der Ablauf, der noetig waere, stehen in
+[KNOWLEDGE.md](KNOWLEDGE.md#die-bedingung-ohne-die-gar-nichts-passiert).
+
+**Praktikabel ist derzeit:**
+
+- Eine Box verwenden, die frueher einmal mit einem Bose-Konto eingerichtet war
+  (`margeAccountUUID` gefuellt). Dort funktioniert der Weg wie beschrieben.
+- Oder [streborn](https://github.com/JRpersonal/streborn) benutzen. Dessen
+  Desktop-App loest genau dieses Problem: Sie setzt ueber einen eigenen
+  Marge-Ersatz ein Dummy-Konto, wartet auf dessen Persistenz und feuert erst
+  dann die Injektion.
 
 ---
 

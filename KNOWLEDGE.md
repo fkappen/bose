@@ -119,6 +119,48 @@ Antwort des Geraets bei Erfolg:
 ausgefuehrt, nicht nur einmal. `[ANNAHME]` - abgeleitet daraus, dass das
 Installationsskript von SoundPloy sich selbst nicht entfernt.
 
+### Die Bedingung, ohne die gar nichts passiert
+
+Der Wert landet im Feld `margeURL`, sichtbar unter `/info`. Er wird aber
+**nur dann ausgefuehrt, wenn die Box tatsaechlich einen Marge-Aufruf an die
+Bose-Cloud startet** - und das tut sie ausschliesslich, wenn ein Bose-Konto
+hinterlegt ist. `[GEPRUEFT]`
+
+Direkter Vergleich zweier baugleicher SoundTouch 10 (beide `rhino`/`sm2`,
+Firmware 27.0.6):
+
+| | Box mit Konto | fabrikfrische Box |
+|---|---|---|
+| `margeAccountUUID` | `5786962` | **leer** |
+| `margeURL` nach Injektion | wird ausgefuehrt | `;curl soundploy.gmuth.de/v2_install\|sh` bleibt als toter Text stehen |
+| Ergebnis | `Sources.xml` installiert | nichts passiert, auch nach Neustart nicht |
+
+Eine fabrikfrische Box laesst sich auf diesem Weg also **nicht** einrichten.
+Der Befehl steht in `margeURL`, aber niemand fuehrt ihn aus.
+
+### Was noetig waere
+
+streborn loest das und beschreibt den Ablauf im Quelltext von
+`desktop-app/telnet_bootstrap_marge.go`: `[GELESEN]`
+
+1. Einen Marge-Ersatz auf dem PC starten, der die Box beantwortet.
+2. `margeURL` der Box per `envswitch` auf diesen PC zeigen lassen.
+3. `POST /setMargeAccount` mit einem Dummy-Konto
+   (`<PairDeviceWithAccount><accountId>...</accountId></PairDeviceWithAccount>`).
+   Der Aufruf laeuft clientseitig in einen Timeout, die Box speichert das
+   Konto aber trotzdem.
+4. Warten, bis `margeAccountUUID` wirklich persistiert ist.
+5. Erst dann die eigentliche Injektion setzen und neu starten.
+
+Entscheidend laut Quelltext: Das Konto persistiert **nur**, wenn die Box es
+gegen einen erreichbaren, wohlgeformten Marge-Server validieren kann. Zeigt
+`margeURL` beim Setzen noch auf das tote `streaming.bose.com`, bleibt
+`margeAccountUUID` leer.
+
+Praktische Huerde im eigenen Netz: Die Box muss den PC erreichen koennen -
+also die Gegenrichtung ueber die VLAN-Grenze, die typischerweise gesperrt
+ist.
+
 Der Werkszustand dieser Variable ist **unbekannt**. Es gibt keinen bekannten Weg,
 ihn auszulesen. Als harmloser Platzhalter eignet sich `;true`. `[ANNAHME]`
 
