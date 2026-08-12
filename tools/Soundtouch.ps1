@@ -1,5 +1,5 @@
 #Version
-$version = "2.0.0"
+$version = "2.1.0"
 $datum = "2026-08-09"
 $autor = "Felix Kappen"
 
@@ -248,18 +248,29 @@ function Get-SoundtouchInfo {
             return
         }
 
-        $info = ([xml]$raw).info
+        $doc = [xml]$raw
+        $info = $doc.SelectSingleNode("/info")
+        if ($null -eq $info) {
+            Write-Error "Unerwartete Antwort von $IPAddress"
+            return
+        }
 
+        # SelectNodes statt Punktzugriff, damit fehlende Knoten unter
+        # Set-StrictMode nicht zum Abbruch fuehren.
+        $komponenten = @($doc.SelectNodes("/info/components/component"))
         $firmware = ""
-        foreach ($c in @($info.components.component)) {
-            if ($null -ne $c -and $c.componentCategory -eq "PackagedProduct") {
-                $firmware = [string]$c.softwareVersion
+        foreach ($c in $komponenten) {
+            $n = $c.SelectSingleNode("componentCategory")
+            if ($null -ne $n -and $n.InnerText -eq "PackagedProduct") {
+                $v = $c.SelectSingleNode("softwareVersion")
+                if ($null -ne $v) { $firmware = [string]$v.InnerText }
                 break
             }
         }
         if ([string]::IsNullOrWhiteSpace($firmware)) {
-            foreach ($c in @($info.components.component)) {
-                if ($null -ne $c) { $firmware = [string]$c.softwareVersion; break }
+            foreach ($c in $komponenten) {
+                $v = $c.SelectSingleNode("softwareVersion")
+                if ($null -ne $v) { $firmware = [string]$v.InnerText; break }
             }
         }
 
@@ -270,15 +281,23 @@ function Get-SoundtouchInfo {
             if ([int]::TryParse((($firmware -split '\.')[0]), [ref]$parsed)) { $major = $parsed }
         }
 
-        $variant = ""
-        if ($info.PSObject.Properties.Match("variant").Count -gt 0) { $variant = [string]$info.variant }
+        # Kindknoten einzeln lesen. Punktzugriff waere hier doppelt heikel:
+        # fehlende Knoten brechen unter StrictMode ab, und '.name' kollidiert
+        # mit der eingebauten Eigenschaft XmlNode.Name.
+        function Get-Text {
+            param($Knoten, [string]$Pfad)
+            $n = $Knoten.SelectSingleNode($Pfad)
+            if ($null -eq $n) { return "" }
+            return [string]$n.InnerText
+        }
 
         [PSCustomObject]@{
             IPAddress     = $IPAddress
-            Name          = [string]$info.name
-            Type          = [string]$info.type
-            DeviceID      = [string]$info.deviceID
-            Variant       = $variant
+            Name          = (Get-Text $info "name")
+            Type          = (Get-Text $info "type")
+            DeviceID      = [string]$info.GetAttribute("deviceID")
+            Variant       = (Get-Text $info "variant")
+            ModuleType    = (Get-Text $info "moduleType")
             Firmware      = $firmware
             FirmwareMajor = $major
             Supported     = ($major -ge 27)
@@ -372,24 +391,28 @@ function Get-SoundtouchPreset {
         $raw = Invoke-StRequest -Uri ("http://{0}:8090/presets" -f $IPAddress)
         if ([string]::IsNullOrWhiteSpace($raw)) { return }
 
+        # SelectNodes statt Punktzugriff: Bei einer Box ohne Presets gibt es
+        # den Knoten 'preset' gar nicht, und Set-StrictMode laesst
+        # $xml.presets.preset dann scheitern.
         $xml = [xml]$raw
-        if ($null -eq $xml.presets) { return }
-
-        foreach ($p in @($xml.presets.preset)) {
+        foreach ($p in @($xml.SelectNodes("/presets/preset"))) {
             if ($null -eq $p) { continue }
 
             $itemName = ""; $source = ""; $location = ""; $art = ""
-            if ($null -ne $p.ContentItem) {
-                $itemName = [string]$p.ContentItem.itemName
-                $source   = [string]$p.ContentItem.source
-                $location = [string]$p.ContentItem.location
-                if ($p.ContentItem.PSObject.Properties.Match("containerArt").Count -gt 0) {
-                    $art = [string]$p.ContentItem.containerArt
-                }
+            $ci = $p.SelectSingleNode("ContentItem")
+            if ($null -ne $ci) {
+                $source   = [string]$ci.GetAttribute("source")
+                $location = [string]$ci.GetAttribute("location")
+
+                $n = $ci.SelectSingleNode("itemName")
+                if ($null -ne $n) { $itemName = [string]$n.InnerText }
+
+                $a = $ci.SelectSingleNode("containerArt")
+                if ($null -ne $a) { $art = [string]$a.InnerText }
             }
 
             [PSCustomObject]@{
-                Preset   = [string]$p.id
+                Preset   = [string]$p.GetAttribute("id")
                 Name     = $itemName
                 Source   = $source
                 Location = $location
@@ -538,8 +561,11 @@ function Test-SoundtouchSetup {
 
         $srcRaw = Invoke-StRequest -Uri ("http://{0}:8090/sources" -f $IPAddress)
         $lirState = "fehlt"
-        foreach ($s in @(([xml]$srcRaw).sources.sourceItem)) {
-            if ($null -ne $s -and $s.source -eq "LOCAL_INTERNET_RADIO") { $lirState = [string]$s.status; break }
+        foreach ($s in @(([xml]$srcRaw).SelectNodes("/sources/sourceItem"))) {
+            if ($null -ne $s -and $s.GetAttribute("source") -eq "LOCAL_INTERNET_RADIO") {
+                $lirState = [string]$s.GetAttribute("status")
+                break
+            }
         }
         $results += [PSCustomObject]@{
             Pruefung = "Quelle LOCAL_INTERNET_RADIO"
@@ -693,6 +719,59 @@ function Install-BoseRadio {
     Write-Output $out
     Write-Output ""
     Write-Output "Befehle gesendet. Die Box startet neu (ca. 1-3 Minuten)."
+}
+
+function Install-BoseRadioFactory {
+    <#
+    .SYNOPSIS
+        Bereitet eine fabrikfrische Box vor (Stufe 1 von 2).
+
+    .DESCRIPTION
+        Auf einer unberuehrten Box fehlen sowohl Sources.xml als auch
+        OverrideSdkPrivateCfg.xml. Ein sed laeuft dort ins Leere, die Dateien
+        muessen erst angelegt werden.
+
+        Diese Funktion stoesst dafuer einmalig den Installer von SoundPloy an.
+        Der arbeitet ueber einfaches HTTP und ist auf dieser Hardware
+        erprobt - im Gegensatz zum eigenen install.sh, das HTTPS auf der Box
+        voraussetzt, was nicht verifiziert ist.
+
+        Das bedeutet: Die Box vertraut dem fremden Server soundploy.gmuth.de
+        fuer genau einen Bootvorgang. Danach uebernimmt Install-BoseRadio und
+        biegt die Registry auf das eigene Repository um.
+
+        ACHTUNG - zwei Nebenwirkungen:
+          - Eine vorhandene Spotify-Verknuepfung geht dabei verloren und
+            laesst sich voraussichtlich nicht wiederherstellen.
+          - Bose-Firmwareupdates werden deaktiviert.
+
+        Ohne -Confirm wird nichts gesendet.
+
+    .EXAMPLE
+        Install-BoseRadioFactory -IPAddress 192.0.2.10 -Confirm
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][string]$IPAddress,
+        [switch]$Confirm
+    )
+
+    $commands = @(
+        'envswitch boseurls set ";curl soundploy.gmuth.de/v2_install|sh" ;'
+        'sys reboot'
+    )
+
+    if (-not $Confirm) {
+        Write-Warning "Abbruch: Install-BoseRadioFactory wurde ohne -Confirm aufgerufen."
+        Write-Output "Es wuerden folgende Befehle an ${IPAddress}:17000 gesendet:"
+        $commands | ForEach-Object { Write-Output "  $_" }
+        return
+    }
+
+    $out = Invoke-BoseTelnet -IPAddress $IPAddress -Commands $commands
+    Write-Output $out
+    Write-Output ""
+    Write-Output "Befehle gesendet. Die Box startet nun zweimal neu (2-3 Minuten)."
 }
 
 function Reset-BoseBootHook {
@@ -1353,6 +1432,114 @@ function Select-SoundtouchDevice {
     Write-Host ("Gewaehlt: {0}" -f $script:Device.IPAddress) -ForegroundColor Green
 }
 
+function Select-StationSlug {
+    <#
+        Laesst einen Sender aus dem lokalen Katalog auswaehlen.
+        Gibt den Slug zurueck oder $null bei Abbruch.
+    #>
+    [CmdletBinding()]
+    param([string]$Titel = "Sender waehlen")
+
+    $alle = @(Get-ChildItem -Path $script:StationDir -Filter "*.json" |
+        Where-Object { $_.Name -ne "index.json" } | Sort-Object Name)
+    if ($alle.Count -eq 0) {
+        Write-Host "Keine Senderdateien vorhanden." -ForegroundColor Red
+        return $null
+    }
+
+    while ($true) {
+        Write-Host ""
+        Write-Host ("$Titel  ({0} im Katalog)" -f $alle.Count) -ForegroundColor Cyan
+        $filter = Read-Host "  Suchbegriff (leer = ueberspringen)"
+        if ([string]::IsNullOrWhiteSpace($filter)) { return $null }
+
+        $treffer = @($alle | Where-Object { $_.BaseName -like "*$filter*" })
+        if ($treffer.Count -eq 0) {
+            Write-Host "  Kein Treffer." -ForegroundColor Yellow
+            continue
+        }
+
+        $max = [Math]::Min($treffer.Count, 25)
+        Write-Host ""
+        for ($i = 0; $i -lt $max; $i++) {
+            Write-Host ("    [{0,2}] {1}" -f ($i + 1), $treffer[$i].BaseName)
+        }
+        if ($treffer.Count -gt $max) {
+            Write-Host ("    ... und {0} weitere, bitte genauer filtern" -f ($treffer.Count - $max)) -ForegroundColor DarkGray
+        }
+
+        Write-Host ""
+        $sel = Read-Host "  Nummer (leer = neu suchen)"
+        if ([string]::IsNullOrWhiteSpace($sel)) { continue }
+
+        $n = 0
+        if ([int]::TryParse($sel, [ref]$n) -and $n -ge 1 -and $n -le $max) {
+            return $treffer[$n - 1].BaseName
+        }
+        Write-Host "  Ungueltige Auswahl." -ForegroundColor Red
+    }
+}
+
+function Set-PresetAssignment {
+    <#
+    .SYNOPSIS
+        Fragt interaktiv, womit die Preset-Tasten belegt werden sollen.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)][string]$IPAddress
+    )
+
+    # Nicht $profile nennen - das ist eine automatische PowerShell-Variable
+    $profilNamen = @()
+    if (Test-Path $script:PresetPath) {
+        try {
+            $map = (Get-Content $script:PresetPath -Raw -Encoding UTF8) | ConvertFrom-Json
+            if ($map.PSObject.Properties.Match("profile").Count -gt 0) {
+                $profilNamen = @($map.profile.PSObject.Properties.Name)
+            }
+        }
+        catch { Write-Warning "presets.json nicht lesbar: $_" }
+    }
+
+    Write-Host ""
+    Write-Host "Preset-Tasten belegen" -ForegroundColor Cyan
+    Write-Host ""
+    if ($profilNamen.Count -gt 0) {
+        Write-Host ("   [1] Fertiges Profil verwenden ({0})" -f ($profilNamen -join ", "))
+    }
+    Write-Host "   [2] Sender einzeln auswaehlen (Tasten 1-6)"
+    Write-Host "   [3] Vorerst leer lassen"
+    Write-Host ""
+
+    $wahl = Read-Host "   Auswahl"
+
+    switch ($wahl) {
+        "1" {
+            if ($profilNamen.Count -eq 0) { Write-Host "Keine Profile vorhanden." -ForegroundColor Red; return }
+            $name = $profilNamen[0]
+            if ($profilNamen.Count -gt 1) {
+                $eingabe = Read-Host ("   Profilname (leer = {0})" -f $profilNamen[0])
+                if (-not [string]::IsNullOrWhiteSpace($eingabe)) { $name = $eingabe }
+            }
+            Set-SoundtouchPresetSet -IPAddress $IPAddress -ProfileName $name
+        }
+        "2" {
+            foreach ($slot in 1..6) {
+                $slug = Select-StationSlug -Titel ("Taste $slot")
+                if ([string]::IsNullOrWhiteSpace($slug)) {
+                    Write-Host ("  Taste {0} bleibt unbelegt." -f $slot) -ForegroundColor DarkGray
+                    continue
+                }
+                Set-SoundtouchPreset -IPAddress $IPAddress -Preset $slot -Slug $slug |
+                    ForEach-Object { Write-Host ("  Taste {0} -> {1}" -f $_.Preset, $_.Name) -ForegroundColor Green }
+                Start-Sleep -Milliseconds 500
+            }
+        }
+        default { Write-Host "Uebersprungen." -ForegroundColor DarkGray }
+    }
+}
+
 function Invoke-GuidedInstall {
     <#
         Fuehrt durch die Einrichtung einer Box: pruefen, migrieren,
@@ -1369,34 +1556,76 @@ function Invoke-GuidedInstall {
     $test = @(Test-SoundtouchSetup -IPAddress $ip)
     $test | Format-Table -AutoSize | Out-String -Width 120 | Write-Host
 
+    # --- Fabrikfrische Box: Quelle erst bereitstellen ---
     $lir = $test | Where-Object { $_.Pruefung -eq "Quelle LOCAL_INTERNET_RADIO" }
     if ($null -ne $lir -and $lir.Ergebnis -ne "OK") {
-        Write-Host "Die Quelle LOCAL_INTERNET_RADIO fehlt auf dieser Box." -ForegroundColor Red
-        Write-Host "Das ist eine fabrikfrische Box - siehe ROLLOUT.md, Abschnitt 3b." -ForegroundColor Yellow
-        Write-Host "Dieser Assistent kann sie nicht automatisch einrichten." -ForegroundColor Yellow
-        return
+        Write-Host ""
+        Write-Host "Die Quelle LOCAL_INTERNET_RADIO fehlt - das ist eine fabrikfrische Box." -ForegroundColor Yellow
+        Write-Host ""
+        Write-Host "Sie muss zuerst vorbereitet werden. Dazu wird einmalig der Installer" -ForegroundColor Gray
+        Write-Host "von SoundPloy angestossen, der ueber einfaches HTTP arbeitet und auf" -ForegroundColor Gray
+        Write-Host "dieser Hardware erprobt ist. Die Box vertraut diesem fremden Server" -ForegroundColor Gray
+        Write-Host "damit fuer genau einen Bootvorgang, danach uebernimmt dieses Repo." -ForegroundColor Gray
+        Write-Host ""
+        Write-Host "  Nebenwirkungen:" -ForegroundColor Yellow
+        Write-Host "    - Eine vorhandene Spotify-Verknuepfung geht verloren" -ForegroundColor Yellow
+        Write-Host "    - Bose-Firmwareupdates werden deaktiviert" -ForegroundColor Yellow
+        Write-Host "    - Die Box startet zweimal neu (2-3 Minuten)" -ForegroundColor Yellow
+        Write-Host ""
+
+        $ok = Read-Host "Vorbereitung jetzt durchfuehren? (j/n)"
+        if ($ok -ne "j") {
+            Write-Host "Abgebrochen. Ohne diesen Schritt geht es nicht weiter." -ForegroundColor DarkGray
+            return
+        }
+
+        Install-BoseRadioFactory -IPAddress $ip -Confirm
+        Write-Host ""
+        Write-Host "Warte auf Neustart..." -ForegroundColor Cyan
+        [void](Wait-Soundtouch -IPAddress $ip)
+        Start-Sleep -Seconds 20
+
+        Write-Host ""
+        Write-Host "Kontrolle nach der Vorbereitung:" -ForegroundColor Cyan
+        $test = @(Test-SoundtouchSetup -IPAddress $ip)
+        $test | Format-Table -AutoSize | Out-String -Width 120 | Write-Host
+
+        $lir = $test | Where-Object { $_.Pruefung -eq "Quelle LOCAL_INTERNET_RADIO" }
+        if ($null -eq $lir -or $lir.Ergebnis -ne "OK") {
+            Write-Host "Die Quelle ist weiterhin nicht bereit - hier von Hand weitersuchen." -ForegroundColor Red
+            Write-Host "Moegliche Ursache: Die Box kam nicht ins Internet." -ForegroundColor Yellow
+            return
+        }
+        Write-Host "Vorbereitung erfolgreich." -ForegroundColor Green
     }
 
+    # --- Vorhandene Presets uebernehmen ---
     Write-Host ""
     Write-Host "Schritt 2: Vorhandene Presets migrieren" -ForegroundColor Cyan
-    Write-Host "Fehlende Senderdateien werden lokal angelegt." -ForegroundColor DarkGray
-    $plan = @(Convert-SoundtouchPreset -IPAddress $ip)
-    if ($null -ne $plan -and $plan.Count -gt 0) {
-        $plan | Format-Table -AutoSize | Out-String -Width 120 | Write-Host
+    $vorhanden = @(Get-SoundtouchPreset -IPAddress $ip)
+    if ($vorhanden.Count -eq 0) {
+        Write-Host "Keine vorhandenen Presets - nichts zu migrieren." -ForegroundColor DarkGray
+    }
+    else {
+        Write-Host "Fehlende Senderdateien werden lokal angelegt." -ForegroundColor DarkGray
+        $plan = @(Convert-SoundtouchPreset -IPAddress $ip)
+        if ($plan.Count -gt 0) { $plan | Format-Table -AutoSize | Out-String -Width 120 | Write-Host }
+
+        $neu = @($plan | Where-Object { $_.Datei -eq "angelegt" })
+        if ($neu.Count -gt 0) {
+            Write-Host ""
+            Write-Host ("{0} neue Datei(en) angelegt. Jetzt committen und pushen:" -f $neu.Count) -ForegroundColor Yellow
+            Write-Host '   git add stations/ ; git commit -m "Sender" ; git push' -ForegroundColor White
+            Write-Host ""
+            $weiter = Read-Host "Gepusht? Dann Enter zum Fortfahren, sonst 'n'"
+            if ($weiter -eq "n") { return }
+        }
     }
 
-    $neu = @($plan | Where-Object { $_.Datei -eq "angelegt" })
-    if ($neu.Count -gt 0) {
-        Write-Host ""
-        Write-Host ("{0} neue Datei(en) angelegt. Jetzt committen und pushen:" -f $neu.Count) -ForegroundColor Yellow
-        Write-Host "   git add stations/ && git commit -m ""Sender"" && git push" -ForegroundColor White
-        Write-Host ""
-        $weiter = Read-Host "Gepusht? Dann Enter zum Fortfahren, sonst 'n'"
-        if ($weiter -eq "n") { return }
-    }
-
+    # --- Registry auf das eigene Repo ---
     Write-Host ""
     Write-Host "Schritt 3: Registry auf dieses Repo umbiegen" -ForegroundColor Cyan
+    Write-Host "Erst danach ist die Box von soundploy.gmuth.de unabhaengig." -ForegroundColor DarkGray
     Write-Host "Die Box startet dabei neu." -ForegroundColor DarkGray
     $ok = Read-Host "Ausfuehren? (j/n)"
     if ($ok -eq "j") {
@@ -1404,15 +1633,28 @@ function Invoke-GuidedInstall {
         Write-Host ""
         Write-Host "Warte auf Neustart..." -ForegroundColor Cyan
         [void](Wait-Soundtouch -IPAddress $ip)
+        Start-Sleep -Seconds 10
     }
 
+    # --- Presets ---
     Write-Host ""
-    Write-Host "Schritt 4: Presets setzen" -ForegroundColor Cyan
-    [void](Convert-SoundtouchPreset -IPAddress $ip -Apply)
+    Write-Host "Schritt 4: Presets" -ForegroundColor Cyan
+    if ($vorhanden.Count -gt 0) {
+        Write-Host "Uebernehme die migrierten Presets..." -ForegroundColor DarkGray
+        [void](Convert-SoundtouchPreset -IPAddress $ip -Apply)
+        Write-Host ""
+        $mehr = Read-Host "Belegung zusaetzlich von Hand anpassen? (j/n)"
+        if ($mehr -eq "j") { Set-PresetAssignment -IPAddress $ip }
+    }
+    else {
+        Set-PresetAssignment -IPAddress $ip
+    }
 
+    # --- Ergebnis ---
     Write-Host ""
     Write-Host "Schritt 5: Ergebnis" -ForegroundColor Cyan
     Test-SoundtouchSetup -IPAddress $ip | Format-Table -AutoSize | Out-String -Width 120 | Write-Host
+    Get-SoundtouchPreset -IPAddress $ip | Format-Table Preset, Name, IsOwn -AutoSize | Out-String -Width 120 | Write-Host
     Write-Host "Zum Abschluss eine Preset-Taste am Geraet druecken und hoeren." -ForegroundColor Yellow
 }
 
