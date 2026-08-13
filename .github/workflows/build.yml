@@ -1,0 +1,295 @@
+name: build
+
+# CI for pull requests and pushes to main. Tag-triggered releases are
+# owned by release.yml, which performs the same verification plus
+# attestation and publication.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # go-version is the minor track; setup-go resolves to the latest
+      # patch so govulncheck does not flag stdlib bugs fixed upstream.
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "stable"
+          cache: true
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: go test
+        run: go test ./... -count=1
+
+  lint:
+    name: golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "stable"
+          cache: true
+      - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
+        with:
+          version: latest
+          args: --timeout=5m
+
+  # The desktop app is a SECOND Go module (streborn-app); the root `go vet`
+  # / `go test ./...` above never descends into it, so it shipped unchecked
+  # until now (a live `go vet` IPv6 finding had sat there). It compiles on a
+  # clean checkout because frontend/dist/.gitkeep keeps the //go:embed target
+  # present, so no frontend build is needed just to vet/test/build it.
+  desktop-go:
+    name: Desktop app (Go)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "stable"
+          cache: true
+          cache-dependency-path: desktop-app/go.sum
+
+      # Guard against the desktop-app module's go.mod/go.sum drifting out of tidy
+      # (e.g. a Dependabot bump of the main module that did not update this one):
+      # that made `go vet` fail with "updates to go.mod needed" and turned the
+      # whole workflow red while releases still shipped (2026-07-15). Fail early
+      # with an actionable message instead.
+      - name: go.mod tidy check
+        working-directory: desktop-app
+        run: |
+          go mod tidy
+          if ! git diff --exit-code go.mod go.sum; then
+            echo "::error::desktop-app go.mod/go.sum are not tidy. Run 'go mod tidy' in desktop-app and commit the result."
+            exit 1
+          fi
+
+      - name: go vet
+        working-directory: desktop-app
+        run: go vet ./...
+
+      - name: go test
+        working-directory: desktop-app
+        run: go test ./... -count=1
+
+      - name: go build
+        working-directory: desktop-app
+        run: go build ./...
+
+      - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
+        with:
+          version: latest
+          args: --timeout=5m
+          working-directory: desktop-app
+
+      # Frontend bindings drift: adding a bound App method without running
+      # `wails generate module` leaves frontend/wailsjs/ stale, which only
+      # the Vite build (a separate job) ever notices, so it festers. Pin the
+      # wails CLI to the exact version in go.mod and fail if regenerating the
+      # bindings would change anything that is not committed.
+      - name: Check wailsjs bindings are current
+        working-directory: desktop-app
+        run: |
+          WAILS_VER=$(go list -m -f '{{.Version}}' github.com/wailsapp/wails/v2)
+          echo "wails $WAILS_VER"
+          go install github.com/wailsapp/wails/v2/cmd/wails@${WAILS_VER}
+          "$(go env GOPATH)/bin/wails" generate module
+          # core.fileMode=false: `wails generate` writes the bindings with the
+          # executable bit set on Linux, which is a spurious mode-only diff
+          # against the committed 0644 files. We only care about content drift.
+          if ! git -c core.fileMode=false diff --exit-code frontend/wailsjs; then
+            echo "::error::frontend/wailsjs is stale. Run 'wails generate module' in desktop-app and commit the result."
+            exit 1
+          fi
+
+  shellcheck:
+    name: shellcheck (on-box scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The USB-stick / on-box scripts are POSIX sh for the speaker's
+      # BusyBox ash. Until now CI did not lint shell at all, so run.sh
+      # (3000+ lines) shipped unchecked. Lint at ERROR severity only:
+      # run.sh is full of intentional BusyBox idioms, so warning/info/
+      # style would be pure noise and a perpetually-red check, but
+      # error-level findings (parse errors, truly broken constructs) are
+      # real bugs worth blocking on. NOTE: shellcheck does NOT catch the
+      # subshell-function-scope class (it treats any file-level function
+      # as globally callable regardless of which `( ) &` subshell calls
+      # it) — that bug class is handled by defining shared helpers at top
+      # level + the runtime scope-guard in run.sh, not here.
+      - name: shellcheck
+        run: |
+          shellcheck --version
+          shellcheck -s sh --severity=error usb-stick/*.sh usb-stick/rc.local
+
+      # CI's own shell, held to a stricter standard than the on-box scripts.
+      # These run on a GitHub runner with real bash, not the speaker's BusyBox,
+      # so none of the intentional ash idioms apply and the default severity is
+      # appropriate. Added when the release pipeline grew a shell script of its
+      # own (the notarization wait); before that, CI shell lived inline in the
+      # workflows and was linted by nothing.
+      - name: shellcheck (CI scripts)
+        run: shellcheck -s bash .github/scripts/*.sh
+
+      # BusyBox parse gate: shellcheck uses its own parser, which is not the
+      # ash the speaker actually runs. A construct ash rejects (and refuses to
+      # exec, leaving the box dead on boot) can pass shellcheck. Run the real
+      # busybox `sh -n` over every on-box script as a hard syntax gate.
+      - name: busybox ash parse gate
+        run: |
+          sudo apt-get update && sudo apt-get install -y busybox-static
+          for f in usb-stick/*.sh usb-stick/rc.local; do
+            busybox sh -n "$f" && echo "ok: $f"
+          done
+
+  govulncheck:
+    name: govulncheck
+    runs-on: ubuntu-latest
+    # Non-blocking until actions/setup-go's manifest stops lagging
+    # upstream Go patch releases. Findings still appear in the logs;
+    # remove this once setup-go reliably installs the latest 1.25.x.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "stable"
+          cache: true
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Scan
+        run: govulncheck ./...
+
+  # Vite build for the Wails frontend. Catches broken template
+  # literals, JSON parse errors in i18n bundles and missing imports
+  # at PR time rather than at the next release. The build only
+  # exercises the Vite pipeline; the Wails-Go glue is covered by
+  # release.yml's full desktop builds on tag push.
+  frontend:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: desktop-app/frontend/package-lock.json
+
+      - name: Install frontend deps
+        working-directory: desktop-app/frontend
+        run: npm ci --no-audit --no-fund
+
+      - name: Build frontend
+        working-directory: desktop-app/frontend
+        run: npm run build
+
+      # i18n coverage report. en is the reference (global-audience default);
+      # the script prints per-locale missing/extra keys. Report-only (exit 0)
+      # so an in-progress translation never blocks a PR, but the drift is
+      # visible in the log instead of being discovered by a user.
+      - name: i18n coverage report
+        working-directory: desktop-app/frontend
+        run: node scripts/i18n-coverage.mjs
+
+  build:
+    name: Cross Compile
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: arm
+            # GOARM=5 (softfloat), not 7: some early SoundTouch CPUs lack
+            # working VFP and a hardware-float binary SIGILLs at os.init and
+            # soft-bricks the box (issue #302). Must match Makefile/release.yml.
+            goarm: "5"
+            suffix: armv7l
+          - goos: linux
+            goarch: arm64
+            suffix: arm64
+          - goos: linux
+            goarch: amd64
+            suffix: amd64
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "stable"
+          cache: true
+
+      - name: Compute version
+        id: vars
+        run: |
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            echo "version=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$(git describe --tags --always --dirty)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          GOARM: ${{ matrix.goarm }}
+          CGO_ENABLED: "0"
+          VERSION: ${{ steps.vars.outputs.version }}
+        run: |
+          mkdir -p dist
+          go build -trimpath \
+            -ldflags="-s -w -X main.version=${VERSION}" \
+            -o "dist/streborn-${{ matrix.suffix }}" \
+            ./cmd/agent
+          sha256sum "dist/streborn-${{ matrix.suffix }}" \
+            > "dist/streborn-${{ matrix.suffix }}.sha256"
+
+      - name: Generate model aliases for armv7l
+        if: matrix.suffix == 'armv7l'
+        run: |
+          for model in ST10 ST20 ST30 WaveSoundTouchIV; do
+            cp "dist/streborn-armv7l" "dist/streborn-${model}"
+            sha256sum "dist/streborn-${model}" \
+              > "dist/streborn-${model}.sha256"
+          done
+          ls -la dist/
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: streborn-${{ matrix.suffix }}
+          path: dist/streborn-*
+          if-no-files-found: error
+          retention-days: 14

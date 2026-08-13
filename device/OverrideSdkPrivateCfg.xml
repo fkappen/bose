@@ -1,9 +1,0 @@
-<SoundTouchSdkPrivateCfg>
-    <margeServerUrl>http://no-marge</margeServerUrl>
-    <statsServerUrl>http://no-stats</statsServerUrl>
-    <swUpdateUrl>http://no-swupdate</swUpdateUrl>
-    <isZeroconfEnabled>true</isZeroconfEnabled>
-    <usePandoraProductionServer>true</usePandoraProductionServer>
-    <saveMargeCustomerReport>false</saveMargeCustomerReport>
-    <bmxRegistryUrl>https://raw.githubusercontent.com/fkappen/bose/main/registry.json</bmxRegistryUrl>
-</SoundTouchSdkPrivateCfg>

@@ -1,408 +1,232 @@
-# Bose SoundTouch ohne fremde Cloud
-
-Bose hat den SoundTouch-Cloud-Dienst im Februar 2026 eingestellt und die
-Server am 6. Mai 2026 endgueltig abgeschaltet. Damit sind alle TuneIn-Presets
-tot. Dieses Repository bringt Internetradio zurueck, ohne dass die Box von
-einem fremden Server abhaengt.
-
-Der Lautsprecher fragt im Betrieb ausschliesslich **dieses Repository** ab.
-Nichts von Bose, nichts von einem Dritten.
-
-> **Wichtig:** Das Repository muss **oeffentlich** sein.
-> `raw.githubusercontent.com` liefert private Inhalte nur mit Token aus, und die
-> Box kann keinen mitschicken.
-
-- Weitere Box einrichten: [ROLLOUT.md](ROLLOUT.md)
-- Technische Details, Formate und Fallstricke: [KNOWLEDGE.md](KNOWLEDGE.md)
+> ⚠️ **Sicherungskopie / Mirror.** Dies ist eine private Sicherung von
+> [JRpersonal/streborn](https://github.com/JRpersonal/streborn) (Commit
+> `83b11ca`, Stand 2026-08-13). Kein eigener Code, keine Weiterentwicklung.
+> Fuer Nutzung, Releases, Issues bitte zum Original. Details:
+> [SICHERUNG.md](SICHERUNG.md).
 
 ---
 
-## Wie es funktioniert
+# STR, SoundTouch Reborn
 
-Die SoundTouch-Firmware kennt eine Quelle `LOCAL_INTERNET_RADIO`. Fuer einen
-Sender ruft sie eine URL auf und erwartet dort ein kleines JSON, das die
-eigentliche Stream-Adresse enthaelt. Diese URL ist frei waehlbar und darf
-absolut sein.
+**Cloud free firmware project for Bose SoundTouch speakers.**
 
-Genau das nutzt dieses Repo aus: Jeder Sender ist eine **statische
-JSON-Datei**. Kein PHP, kein Server, keine Datenbank.
+<p align="center">
+  <a href="https://github.com/JRpersonal/streborn/actions/workflows/build.yml"><img src="https://github.com/JRpersonal/streborn/actions/workflows/build.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/JRpersonal/streborn/actions/workflows/codeql.yml"><img src="https://github.com/JRpersonal/streborn/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
+  <a href="https://github.com/JRpersonal/streborn/actions/workflows/release.yml"><img src="https://github.com/JRpersonal/streborn/actions/workflows/release.yml/badge.svg" alt="Release"></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/JRpersonal/streborn"><img src="https://api.securityscorecards.dev/projects/github.com/JRpersonal/streborn/badge" alt="OpenSSF Scorecard"></a>
+  <a href="https://github.com/JRpersonal/streborn/releases/latest"><img src="https://img.shields.io/github/v/release/JRpersonal/streborn" alt="Latest release"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/github/license/JRpersonal/streborn" alt="License"></a>
+</p>
 
-```
-Preset-Taste gedrueckt
-        |
-        v
-https://raw.githubusercontent.com/fkappen/bose/main/stations/swr4-koblenz.json
-        |
-        v
-{ "audio": { "streamUrl": "https://liveradio.swr.de/sw282p3/swr4ko/" } }
-        |
-        v
-Box spielt den Stream direkt vom Sender
-```
+<p align="center">
+  <img src="docs/screenshots/OS%20Hero/app-listen.jpg" alt="ST Reborn desktop app" width="820">
+</p>
 
----
+Bose discontinued their SoundTouch cloud service in February 2026 and switched the servers off for good on 6 May 2026. STR keeps the speakers usable: a small Go agent is installed onto the speaker itself, stands in for the discontinued cloud locally, and brings back internet radio, Spotify, your own media library, multiroom, and the hardware preset buttons. **The install runs over your home network from the desktop app**, so no USB stick and no second device are needed. The agent persists on the speaker and starts with it on every boot.
 
-## Abhaengigkeiten
+## How it works in one paragraph
 
-Was im Betrieb noch nach draussen geht:
+The desktop app finds the speaker on the network, reaches it on its setup port and copies the agent into the speaker's persistent storage. From then on it starts automatically every time the speaker powers on. A USB stick is still supported as a fallback and recovery path, but it is no longer the normal way to install. It hosts a stand-in for the Bose cloud on the loopback interface and redirects the relevant DNS names so the speaker treats it as the real cloud. Playback then happens over UPnP AVTransport on the speaker, which is supported natively, whether the source is an internet radio station, a Spotify playlist, or a track from a media server on your own network. The hardware preset buttons are wired through the speaker's local WebSocket, so a button press recalls the saved source; the same bus lets a remote key fire a webhook to control your smart home. Several speakers can be grouped into a multiroom zone or a stereo pair.
 
-| Ziel | Wofuer | Vermeidbar? |
-|---|---|---|
-| Dieses GitHub-Repo | Senderdateien, `registry.json` | Ja, jeder statische Webserver tut es |
-| Die Radiosender selbst | Der Audiostream | Nein, das ist der Sinn der Sache |
+## Screenshots
 
-Was **nicht** mehr gebraucht wird:
+The desktop app: browse and assign presets, search internet radio, control Spotify, browse your local media library, manage speaker settings, and install STR onto a speaker over the network.
 
-- Die Bose-Cloud (abgeschaltet)
-- `soundploy.gmuth.de` (fremder Hobbyserver)
-- `radio-browser.info` im Betrieb
+| | | |
+|:--:|:--:|:--:|
+| [![Presets and playback](docs/screenshots/OS%20Hero/app-listen.jpg)](docs/screenshots/OS%20Hero/app-listen.jpg) | [![Internet radio search](docs/screenshots/OS%20Hero/app-search.jpg)](docs/screenshots/OS%20Hero/app-search.jpg) | [![Speaker settings](docs/screenshots/OS%20Hero/app-settings1.jpg)](docs/screenshots/OS%20Hero/app-settings1.jpg) |
+| Presets and playback | Internet radio search | Speaker settings |
+| [![DLNA library](docs/screenshots/OS%20Hero/app-library.jpg)](docs/screenshots/OS%20Hero/app-library.jpg) | [![USB stick setup](docs/screenshots/OS%20Hero/app-stick-step1.jpg)](docs/screenshots/OS%20Hero/app-stick-step1.jpg) | [![Stick: Wi-Fi, name, region](docs/screenshots/OS%20Hero/app-stick-step2.jpg)](docs/screenshots/OS%20Hero/app-stick-step2.jpg) |
+| DLNA music library | Install and setup | Wi-Fi, name, region |
 
-`radio-browser.info` wird nur noch benutzt, wenn ein **neuer Sender angelegt**
-wird, um dessen Stream-URL nachzuschlagen. Die Box selbst ruft es nie auf.
+The interface is available in twelve languages (English, German, French, Spanish, Japanese, Ukrainian, Dutch, Polish, Lithuanian, Latvian, Turkish, Arabic). The full per-language screenshot set lives in [`docs/screenshots/`](docs/screenshots/) and is regenerated automatically with `npm run shoot` in `desktop-app/frontend/screenshots/`, a headless Playwright harness that mocks the backend with demo data, so no speaker is needed.
 
-> **Ehrlich bleiben:** GitHub ist auch ein Cloud-Dienst. Der Unterschied ist,
-> dass es dein Konto, dein Repository und deine Dateien sind. Faellt GitHub
-> weg oder willst du es nicht mehr, aenderst du **eine** URL und legst die
-> Dateien woanders hin, zum Beispiel auf den eigenen Home Assistant.
+## Status (August 2026)
 
----
+STR is pre-1.0. This section is the honest snapshot. No marketing.
 
-## Verifikationsstand
+### What works
 
-Live geprueft gegen eine **SoundTouch 10**, Firmware `27.0.6`,
-`moduleType=sm2`, `variant=rhino`:
+- Discovery of speakers running STR over mDNS, list view in the desktop app. Speakers without STR show up too, marked "ready for STR", and can be installed in-app.
+- Playback control: play / pause / stop / volume / bass / source switch (AUX, Bluetooth, Standby) via the speaker's existing UPnP AVTransport endpoint on port 8091. I never route audio through the dead Bose cloud.
+- Radio search via radio-browser.info, queried directly by the desktop app (no API key); only the final stream URL goes to the speaker. HLS-only stations (BBC and co.) are converted on the fly by the agent's stream proxy. On a blocked or dead stream the app automatically tries another listing of the same station.
+- Six preset slots, persisted by the agent on the speaker. Hardware preset buttons 1 to 6 work after install via a hook into Bose's WebSocket bus (gabbo). Existing non-STR presets (e.g. Deezer) are left untouched.
+- Spotify Connect (beta): a supervised go-librespot sidecar on the speaker. Spotify playlists, albums, and tracks save to preset slots and the hardware buttons, with multi-account switching and live now-playing. The raw Ogg stream is decoded by the speaker, never by the dead cloud.
+- Local media library: browse media servers on your home network over DLNA / UPnP AV (SSDP discovery, ContentDirectory browse), including FRITZ!Box, Synology, Plex and miniDLNA, and save any track as a preset. Lossless files (FLAC) play directly; the agent's stream proxy feeds the box.
+- Multiroom zones and stereo pairs (beta): group several speakers to play in sync, or pair two as a left/right stereo pair. Groups persist on the speaker and reform automatically after a reboot, standby cycle, or Wi-Fi outage.
+- Smart-home triggers (webhooks): turn a remote-control key, the power button, or an AUX change into a user-configured HTTP call, so a press can drive Home Assistant, ioBroker, Node-RED, or anything with an HTTP endpoint.
+- OTA agent updates from the desktop app, with an SSH fallback and a pre-reboot stick refresh so the update cannot be reverted by the boot sync. Build stamp comparison catches version drift.
+- WLAN reconfigure from the desktop app. I rewrite `/etc/wpa_supplicant.conf` in full because appending breaks Wi-Fi.
+- Setup wizard for the install, including preset region, friendly name, box language, and Wi-Fi credentials. The network install is the normal path; the USB stick route (with a bundled FAT32 formatting helper) remains available as a fallback.
+- Diagnostics export (anonymised), true factory reset, and a full "Uninstall STR" that returns the speaker to stock.
 
-| | Status |
-|---|---|
-| Box laedt eine statische JSON-Datei von GitHub per HTTPS und spielt sie | **bestaetigt** |
-| Zertifikat von GitHub wird von der Box akzeptiert | **bestaetigt** |
-| Presets per `POST /storePreset` schreibbar, ohne Tastendruck am Geraet | **bestaetigt** |
-| Presets zeigen auf dieses Repo, Wiedergabe bestaetigt | **bestaetigt** |
-| Registry per `sed` umgebogen, Quelle bleibt nach Neustart `READY` | **bestaetigt** |
-| Box ruft `bmxRegistryUrl` tatsaechlich per HTTPS ab | **wahrscheinlich** (1) |
-| curl auf der Box beherrscht HTTPS | ungeprueft (nicht noetig) |
+### In the works
 
-(1) Nach der Umstellung und einem Neustart bleibt alles funktionsfaehig. Ob
-die Registry wirklich neu geholt oder aus dem Geraetezustand bedient wird,
-zeigt sich erst nach Ablauf von `askAgainAfter` (24 Stunden). Details in
-[KNOWLEDGE.md](KNOWLEDGE.md#zur-registry-ueber-https).
+- **Podcasts**: search a show, play episodes, and subscribe a show to a preset so the newest episode is one button away. Design and feedback in #215.
+- **Deezer**: existing Deezer presets on the box already survive an install untouched. Reading and creating Deezer presets from STR is planned (see [`docs/ROADMAP.md`](./docs/ROADMAP.md)).
+- **More streaming sources**: SoundCloud (#241), SiriusXM (#242), and Pandora (#243) are at the feasibility stage. Like Spotify, each would run through a bridge STR controls, since the speakers' built-in sources died with the cloud.
 
----
+### Supported models
 
-## Einrichtung
+| Model                       | Status                   |
+| --------------------------- | ------------------------ |
+| SoundTouch 10               | ✅ Verified on hardware  |
+| SoundTouch 20               | ✅ Works (contributor-confirmed) |
+| SoundTouch 30               | ✅ Works (confirmed on hardware) |
+| SoundTouch Portable         | ✅ Verified on hardware  |
+| Wave SoundTouch series III and IV | ✅ Works (network install) |
+| SoundTouch 300              | ✅ Works (network install) |
+| Bose SA-4 amplifier         | ✅ Works (network install) |
+| Bose SA-5 amplifier         | ✅ Works (network install) |
+| CineMate 520 and 130        | ✅ Works (network install) |
 
-### Voraussetzungen
+Per-model detail and the variant fingerprints are in [`docs/MODELS.md`](./docs/MODELS.md). The SoundTouch 300, the SA-4 and SA-5 amplifiers, the Wave systems and the CineMate soundbars never read a USB stick at boot, so the network install is what made these models possible in the first place. If you own a model that is not listed here, I would like to hear from you so we can work out how close it is.
 
-- Firmware 27.x oder neuer. Pruefen: `http://<box-ip>:8090/info`
-- Die Box muss vom PC aus per Unicast erreichbar sein (Ports 8090 und 17000).
-  Getrennte VLANs sind kein Problem, solange die Firewall es zulaesst.
-- mDNS wird **nicht** gebraucht.
+### What I do for security
 
-### Schritt 1: Presets auf dieses Repo umstellen
+- DNS pinning for the Bose hostnames (`streaming.bose.com`, `bmx-cloud.*`, TuneIn partner subdomain) to `127.0.0.1` via an `/etc/hosts` bind-mount. The speaker no longer makes outbound queries for these names. This closes the residual domain-squat risk if Bose lets the DNS lapse and someone re-registers it.
+- Per-box local TLS CA, generated on first boot, stored in `/mnt/nv/streborn/ca/`, installed in the speaker's own trust store. Only valid for the loopback-redirected hostnames; the CA private key never leaves the speaker's NAND. The stand-in listeners themselves are LAN-reachable like the rest of the agent surface.
 
-Das geht ohne jeden Eingriff am Geraet, rein ueber die HTTP-API.
+### What I do not do for security yet
 
-```powershell
-. .\tools\Soundtouch.ps1
+- No client authentication on the agent's web UI (`:8888`). Any device on the LAN that can reach the speaker can edit presets and trigger playback.
+- No encryption between the desktop app and the agent. Both sit on the LAN, the LAN is the trust boundary.
+- No verification of the stock speaker firmware integrity.
+- No sandboxing of the desktop application.
 
-$ip = "192.0.2.10"
-Get-SoundtouchInfo -IPAddress $ip
+### What is inherited from stock Bose firmware (and I do not change)
 
-Set-SoundtouchPreset -IPAddress $ip -Preset 1 -Slug "swr4-koblenz"
-Set-SoundtouchPreset -IPAddress $ip -Preset 2 -Slug "hr4-mittelhessen"
-Set-SoundtouchPreset -IPAddress $ip -Preset 3 -Slug "ndr1-welle-nord"
-Set-SoundtouchPreset -IPAddress $ip -Preset 5 -Slug "oldie-antenne"
-Set-SoundtouchPreset -IPAddress $ip -Preset 6 -Slug "radio-paloma"
+- HTTP control on `:8090` and UPnP on `:8091` accept any LAN client without authentication. Standard SoundTouch behaviour, not added by me.
+- The speakers ship with `root` having no password set, and SSH (port 22) is enabled by Bose's own init script when a `remote_services` file is present on a mounted USB stick. **STR does not hold that port open.** On a normal, stickless boot the speaker ends up with SSH closed; STR only force-starts `sshd` when you deliberately ask for it, by placing the marker file `/mnt/nv/streborn/enable-ssh` on the speaker. That keeps the repair channel available when an install or update leaves the agent down, without leaving a passwordless root shell on your LAN the rest of the time. While a setup stick is inserted, Bose's own gate opens SSH, which is why the app reminds you to pull the stick after setup. If you switched the marker on, the app's speaker settings show it and tell you how to switch it off again.
 
-Get-SoundtouchPreset -IPAddress $ip | Format-Table -AutoSize
-```
+### Factory reset
 
-Damit ist `radio-browser.info` aus dem Betrieb raus. Voraussetzung ist, dass
-die Quelle `LOCAL_INTERNET_RADIO` auf der Box bereits aktiv ist.
+A Bose factory reset clears only what Bose itself knows about: the Bose preset database, account, friendly name, Wi-Fi. It does not touch `/mnt/nv/streborn/`, which is where my agent binary, CA, preset store, region, name, and the `run-override.sh` hook live. After a factory reset, STR is still installed and boots automatically.
 
-### Schritt 2: Registry auf dieses Repo umbiegen
+Implication: a speaker being passed on or sold needs a separate "Uninstall STR" step. That ships in the desktop app: Speaker Settings offers **Remove STR** (removes `/mnt/nv/streborn/` and the boot override, returns the speaker to stock Bose firmware) and a separate **True Factory Reset**. See [`docs/ROADMAP.md`](./docs/ROADMAP.md), "Factory reset wizard", for the remaining level (reset STR data only).
 
-Erst dieser Schritt loest die Box von `soundploy.gmuth.de`. Er braucht
-Telnet auf Port 17000 und einen Neustart.
+### Pre-1.0 gaps I still owe before tagging 1.0
 
-Der **empfohlene** Weg kommt ohne Download aus und aendert nur die eine
-Zeile in der bestehenden Konfigurationsdatei:
+Per my own criteria in [`CLAUDE.md`](./CLAUDE.md):
 
-```
-envswitch boseurls set ";sed -i s#http://soundploy.gmuth.de/v2/registry.json#https://raw.githubusercontent.com/fkappen/bose/main/registry.json#g /mnt/nv/OverrideSdkPrivateCfg.xml" ;
-sys reboot
-```
+1. Two models verified end to end: met (ST10 and Portable verified, ST20 contributor-confirmed with the final stability pass pending, ST30 working on both module variants; see [`docs/MODELS.md`](./docs/MODELS.md)).
+2. Hardware preset buttons need to survive cold boot, standby cycle, and Wi-Fi outage. I observe this working, but I do not yet have a regression test that pins it.
+3. First-install experience: SmartScreen and Gatekeeper documentation on the website Verify page with the exact click path and a linked SHA256 plus Sigstore attestation. Partially in place, not finalised.
+4. Threat model document published. Present in [`docs/THREAT-MODEL.md`](./docs/THREAT-MODEL.md). It does not yet cover the persistence-across-factory-reset point above, which I owe.
+5. Legal pages on the website (imprint, privacy, both German). Some sections still contain placeholders.
 
-Danach den Boot-Hook wieder entfernen, damit die Box beim Start nichts mehr
-ausfuehrt. Alternativ liegt in [`device/install.sh`](device/install.sh) die
-Variante mit `curl`; sie setzt aber voraus, dass der curl auf der Box HTTPS
-kann, was nicht geprueft ist.
+Additional models beyond the 1.0 threshold, sandboxing the Wails app, and the hardening steps (token auth on `:8888`, iptables egress lockdown, automatic `passwd root` on install) I see as post-1.0. Code signing ships on both desktop platforms already: Windows binaries are Authenticode-signed with a Certum open-source certificate, and the macOS app and disk image are Developer ID signed and notarized by Apple.
 
-Kontrolle nach dem Neustart:
+## Quick start for developers
 
-```powershell
-Invoke-WebRequest "http://192.0.2.10:8090/sources" -UseBasicParsing
-```
+```bash
+git clone https://github.com/JRpersonal/streborn.git
+cd streborn
 
-`LOCAL_INTERNET_RADIO` muss dort mit `status="READY"` auftauchen.
+# Build the stick agent for the speaker hardware (ARMv7l)
+make build-arm
 
----
-
-## Einen Sender hinzufuegen
-
-```powershell
-. .\tools\Soundtouch.ps1
-
-# 1. Suchen
-Find-RadioStation -Name "Antenne Bayern" | Format-Table Name, StationUuid, StreamUrl
-
-# 2. Datei erzeugen
-Find-RadioStation -Name "Antenne Bayern" | Select-Object -First 1 |
-    New-StationFile -Slug "antenne-bayern"
-
-# 3. Committen und pushen, sonst findet die Box die Datei nicht
-git add stations/antenne-bayern.json
-git commit -m "Sender Antenne Bayern"
-git push
-
-# 4. Auf eine Taste legen
-Set-SoundtouchPreset -IPAddress 192.0.2.10 -Preset 4 -Slug "antenne-bayern"
+# Build the desktop app with embedded helpers and version stamp
+# (requires Wails v2 CLI; raw `wails build` leaves the embeds empty)
+make wails-build
 ```
 
-Eine Senderdatei ist bewusst simpel und laesst sich auch von Hand schreiben:
+Requirements: Go 1.25 or newer, Node 20 or newer, Wails CLI v2 for the desktop app. Note: on Windows/macOS hosts the agent itself only cross-compiles (`make build-arm`); plain `go build ./...` fails on its Linux-only syscalls.
 
-```json
-{
-  "name": "Beispiel FM",
-  "streamType": "liveRadio",
-  "imageUrl": "",
-  "audio": {
-    "isRealtime": true,
-    "hasPlaylist": false,
-    "streamUrl": "https://beispiel.de/stream.mp3"
-  }
-}
+The website (st-reborn.de) lives in a separate repository, [`JRpersonal/streborn-website`](https://github.com/JRpersonal/streborn-website). A release here triggers a build there via `repository_dispatch`.
+
+## Architecture
+
+If you want to understand how the agent, the desktop app, and the speaker's stock firmware fit together (components, ports, data flows for discovery, playback, marge emulation, install, OTA), read [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md). It is short, has diagrams, and is the right starting point for contributors.
+
+## Repository layout
+
+| Path | Description |
+|------|-------------|
+| `cmd/` | Stick agent entry point, plus `winformat`, `relnotes`, `mdns-probe` helpers |
+| `internal/` | Agent-only packages: marge cloud stub, BMX, UPnP, WebSocket hook, preset store, stream proxy, Spotify manager, zones, webhooks |
+| `discovery/` | mDNS discovery (top level so the desktop app can import it) |
+| `dlna/` | DLNA MediaServer client for the Library tab (top level) |
+| `radiobrowser/` | radio-browser.info client for the app-side radio search (top level) |
+| `sticksetup/` / `wifiprofiles/` | Embedded stick provisioning + saved-Wi-Fi reader (top level) |
+| `usb-stick/` | Bootstrap and runtime scripts on the speaker |
+| `setup/` | Legacy PowerShell wizard (superseded by the in-app stick setup) |
+| `desktop-app/` | Cross-platform Wails app (own Go module) |
+| `.github/` | CI and release workflows |
+| `docs/` | Public documentation (architecture, threat model, models, roadmap) |
+
+## Downloads and end user documentation
+
+See [st-reborn.de](https://st-reborn.de).
+
+## Verifying release artifacts
+
+Every release on GitHub Releases is built by the official workflow and ships with build provenance attestations via Sigstore. You can verify any binary with:
+
+```bash
+gh attestation verify STR-Windows-vX.Y.Z.exe --owner JRpersonal
 ```
 
----
+Windows builds are additionally Authenticode-signed with a Certum open-source code-signing certificate; check the signature in the file's Properties > Digital Signatures tab or with `signtool verify /pa`.
 
-## Aktuelle Belegung
+For the threat model and the vulnerability reporting process see [SECURITY.md](./SECURITY.md) and [docs/THREAT-MODEL.md](./docs/THREAT-MODEL.md).
 
-| Taste | Sender | Datei |
-|---|---|---|
-| 1 | SWR4 Koblenz | [`stations/swr4-koblenz.json`](stations/swr4-koblenz.json) |
-| 2 | hr4 Mittelhessen | [`stations/hr4-mittelhessen.json`](stations/hr4-mittelhessen.json) |
-| 3 | NDR 1 Welle Nord | [`stations/ndr1-welle-nord.json`](stations/ndr1-welle-nord.json) |
-| 4 | Antenne Sylt | [`stations/antenne-sylt.json`](stations/antenne-sylt.json) |
-| 5 | OLDIE ANTENNE | [`stations/oldie-antenne.json`](stations/oldie-antenne.json) |
-| 6 | Radio Paloma | [`stations/radio-paloma.json`](stations/radio-paloma.json) |
+## How this repo stays clean
 
----
+Every change is checked automatically and the results are public, so you do not have to take my word for any of it. The badges at the top of this page are live: green means the latest run passed, click one to open the run.
 
-## Aufbau
+- **CI** runs `golangci-lint`, `govulncheck` (Go vulnerability scan), and the test suite on every push and pull request.
+- **CodeQL** runs static security analysis on every push and weekly.
+- **OpenSSF Scorecard** audits the supply-chain posture (branch protection, pinned dependencies, signed releases, token hygiene) weekly and publishes the score.
+- **Dependabot** keeps Go, npm, and GitHub Actions dependencies patched; all third-party actions are pinned to a commit SHA.
+- **Secret Scanning with Push Protection** blocks commits that contain a leaked credential.
+- **Releases** are built only by the workflow from a signed tag, with SHA256 sums and Sigstore build-provenance attestations (above). All shipped binaries, including the small speaker shim, are compiled from source by the workflow; no opaque prebuilt binaries are committed.
 
-```
-README.md                  Diese Datei
-ROLLOUT.md                 Schritt-fuer-Schritt fuer weitere Boxen
-KNOWLEDGE.md               Wissensbasis: API, Formate, Fallstricke, Verifikationsstand
-.nojekyll                  Noetig, damit GitHub Pages die JSON-Dateien ausliefert
-registry.json              Service-Registry, die die Box beim Start liest
-presets.json               Profile fuer den Rollout (Taste -> Sender)
-stations/*.json            Ein Sender pro Datei
-stations/index.json        Katalogverzeichnis (Slug -> Name, UUID, URL)
-device/Sources.xml         Schaltet die Quelle LOCAL_INTERNET_RADIO frei
-device/OverrideSdkPrivateCfg.xml   Zeigt bmxRegistryUrl auf dieses Repo
-device/install.sh          Optionale Installation per curl
-tools/Soundtouch.ps1       PowerShell-Werkzeuge (5.1 kompatibel)
-```
+Findings from Dependabot, CodeQL, and Scorecard surface in the repository's [Security tab](https://github.com/JRpersonal/streborn/security). The full policy is in [SECURITY.md](./SECURITY.md), and hard-won notes about the stock firmware STR runs on top of are in [docs/FIRMWARE-NOTES.md](./docs/FIRMWARE-NOTES.md).
 
-## Werkzeug
+## Privacy
 
-Direkt aufgerufen startet ein Menue:
+STR has no accounts, no ads, and no third-party trackers in the app. The speaker never contacts the Bose cloud: STR answers it locally; with Spotify Connect enabled it talks to Spotify's servers. The desktop app talks to st-reborn.de (optional version check, disablable with `STR_NO_UPDATE_CHECK=1`; sends only the app version, build, OS, architecture, and language), to radio-browser.info for the station search, and to public favicon endpoints for station logos. The website uses cookieless GoatCounter analytics. Full breakdown: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md#telemetry-analytics-and-privacy).
 
-```powershell
-.\tools\Soundtouch.ps1
-```
+## Contributing
 
-```
-  ==================================================================
-   Bose SoundTouch Verwaltung                              v2.0.0
-  ==================================================================
+Issues and pull requests welcome. By submitting a contribution you agree to license it under MIT. Significant changes please open an issue first to discuss the approach.
 
-   Sender lokal : 104
-   Geraet       : 192.0.2.10  SoundTouch 10  (Firmware 27)
+## Support the project
 
-  ------------------------------------------------------------------
-   [1]  Geraete suchen und auswaehlen
-   [2]  Status des gewaehlten Geraets
-   [3]  Presets anzeigen
-   [4]  Einrichtung / Migration  (gefuehrt)
-   [5]  Presets aus Profil setzen
-   [6]  Einzelnes Preset setzen
-   [7]  Senderkatalog aktualisieren (Top 100 DE)
-   [8]  Sender suchen und hinzufuegen
-   [9]  Registry umbiegen (Telnet, Neustart)
-   [R]  Boot-Hook entschaerfen
-   [Q]  Beenden
-  ------------------------------------------------------------------
-```
+If STR helped bring your speaker back to life, please consider a donation.
 
-Punkt **[4]** ist der gefuehrte Weg fuer eine neue Box: Zustand pruefen,
-vorhandene Presets migrieren, fehlende Senderdateien anlegen, Registry
-umbiegen, Presets setzen, Ergebnis kontrollieren.
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/JRpersonal?label=Sponsor%20on%20GitHub&logo=GitHub&color=ea4aaa)](https://github.com/sponsors/JRpersonal)
 
-Wird das Skript dot-gesourct, startet kein Menue und die Funktionen stehen
-einzeln bereit:
+More payment options on [st-reborn.de](https://st-reborn.de/#donate).
 
-```powershell
-. .\tools\Soundtouch.ps1
-```
+## Disclaimer
 
-| Funktion | Zweck |
-|---|---|
-| `Find-Soundtouch` | Boxen suchen (TCP-Scan, kein mDNS noetig) |
-| `Get-SoundtouchInfo` | Modell, Firmware, Eignung |
-| `Test-SoundtouchSetup` | Gesamtpruefung inkl. Erreichbarkeit der Senderdateien |
-| `Find-RadioStation` | Sender bei radio-browser suchen |
-| `New-StationFile` | `stations/<slug>.json` erzeugen |
-| `Update-StationCatalog` | Top-N eines Landes holen und aktualisieren |
-| `Test-StationFiles` | Alle Senderdateien auf erreichbare Streams pruefen |
-| `Test-StationStream` | Einzelne Stream-URL pruefen (ICY-tauglich) |
-| `Convert-SoundtouchPreset` | Bestehende Presets migrieren, fehlende Dateien anlegen |
-| `Get-SoundtouchPreset` | Belegung auslesen |
-| `Set-SoundtouchPreset` | Einzelne Taste setzen |
-| `Set-SoundtouchPresetSet` | Profil aus `presets.json` anwenden |
-| `Install-BoseRadio` | Registry auf dieses Repo umbiegen (Telnet) |
-| `Reset-BoseBootHook` | Boot-Hook entschaerfen |
-| `Wait-Soundtouch` | Auf Neustart warten |
+STR is an independent open source project. The abbreviation **ST** references compatibility with Bose SoundTouch family speakers. STR is **not affiliated with, endorsed by, sponsored by, or otherwise connected to** Bose Corporation. **Bose** and **SoundTouch** are registered trademarks of Bose Corporation in the United States and other countries.
 
-## Senderkatalog
+STR exists solely to restore functionality of these speakers after the official Bose cloud service shutdown in February 2026. Reverse engineering for interoperability is permitted under EU Directive 2009/24/EC, Article 6, and comparable provisions in other jurisdictions.
 
-`stations/` enthaelt die 100 meistgehoerten deutschen Sender plus die
-handgepflegten. `stations/index.json` haelt fest, welcher Slug zu welchem
-Sender gehoert.
+The software is provided AS IS, without warranty. Use at your own risk.
 
-Aktualisieren, wenn Sender ihre Stream-URL geaendert haben:
+## Acknowledgements and third-party software
 
-```powershell
-. .\tools\Soundtouch.ps1
-Update-StationCatalog -Top 100 -CountryCode DE
-git add stations/ ; git commit -m "Senderkatalog aktualisiert" ; git push
-```
+STR stands on other people's open source. Thank you.
 
-Ein `-WhatIfOnly` zeigt vorher an, was sich aendern wuerde. Handgepflegte
-Sender, die nicht in der Top-Liste stehen, bleiben unberuehrt.
+- **[go-librespot](https://github.com/devgianlu/go-librespot)** by devgianlu, **GPL-3.0** , the Spotify Connect client that powers STR's Spotify support. It ships as a **separate binary** that STR runs as a child process and talks to over a local API/pipe; it is not linked into STR, so STR's own MIT code and the GPL-3.0 binary are merely aggregated, each under its own license. STR builds it from a small fork, [JRpersonal/go-librespot](https://github.com/JRpersonal/go-librespot) (also GPL-3.0), that adds a raw-Ogg passthrough mode; that change is offered back upstream. The full source of the bundled build is public there.
+- **[radio-browser.info](https://www.radio-browser.info/)** , the community-run radio station directory STR searches, with no key and no account.
+- **[Octicons](https://github.com/primer/octicons)** by GitHub (MIT) , a couple of UI icons.
+- **[Bose-SoundTouch](https://github.com/gesellix/Bose-SoundTouch)** by gesellix , the independent cloud emulation whose documented account and BMX service schema STR's native source registration is built on: the numeric `sourceproviderid` catalogue, the `<devices>` block the firmware requires before it accepts an account at all, and the finding that device-local slots such as `UPNP` and `STORED_MUSIC_MEDIA_RENDERER` must never be served to a speaker as account sources. Sponsor: [github.com/sponsors/gesellix](https://github.com/sponsors/gesellix).
+- **[bosesoundtouchapi](https://github.com/thlucas1/bosesoundtouchapi)** by thlucas1 , the most complete public reference for the speaker's own REST API on port 8090.
+- **[SixBack](https://github.com/tostmann/SixBack)** by Dirk Tostmann , an independent post-shutdown revival project; its documented source-registration behaviour helped separate "source not registered" from "source has no account behind it".
+- **[soundcork](https://github.com/deborahgu/soundcork)** , the proxied API specification for the Bose cloud calls, assembled from real speaker traffic.
+- **[libsoundtouch](https://github.com/CharlesBlonde/libsoundtouch)** by CharlesBlonde , early documentation of the speaker protocol and the WebSocket event bus.
+- **[BoseSoundtouch](https://github.com/TimoGo/BoseSoundtouch)** by TimoGo , documented the TAP CLI sequence for Wi-Fi provisioning, including the `network` prefix the Bose service manual leaves out.
+- **[Soundtouch-without-the-app](https://github.com/bosefirmware/Soundtouch-without-the-app)** and the wider **[bosefirmware](https://github.com/bosefirmware)** archive , cloud-free operation of the speakers, and the firmware images that made it possible to tell the chassis generations apart.
+- The wider community that documented the SoundTouch TAP CLI and firmware behaviour after the cloud shutdown, whose findings STR builds on.
 
----
+Bundled components keep their own licenses; STR's own code is MIT.
 
-## Wartung
+## License
 
-Der Preis der Unabhaengigkeit: Aendert ein Sender seine Stream-URL, faellt
-das hier nicht automatisch nach. Dann die betroffene Datei neu erzeugen:
-
-```powershell
-Find-RadioStation -Name "SWR4 Koblenz" | Select-Object -First 1 |
-    New-StationFile -Slug "swr4-koblenz"
-```
-
-Zum Pruefen aller Sender reicht ein Blick, ob die Streams noch antworten.
-
----
-
-## Auf GitHub Pages umstellen
-
-`raw.githubusercontent.com` funktioniert ohne jede Einrichtung und ist am
-Geraet erprobt, ist aber nicht als Dauerlast-Endpunkt gedacht. Fuer eine
-handvoll Abrufe pro Tag ist das unkritisch.
-
-Wer Pages nutzen will, braucht die Datei **`.nojekyll`** im Wurzelverzeichnis.
-Ohne sie verarbeitet Jekyll das Repo: die Wurzel wird als HTML ausgeliefert,
-`registry.json` und `stations/*.json` geben aber 404. Die Datei liegt hier
-bereits bei.
-
-Danach in [`tools/Soundtouch.ps1`](tools/Soundtouch.ps1) die Variablen
-`$script:StationBaseUrl` und `$script:RegistryUrl` sowie die `bmxRegistryUrl`
-in [`device/OverrideSdkPrivateCfg.xml`](device/OverrideSdkPrivateCfg.xml) auf
-`https://fkappen.github.io/bose/...` umstellen und die Presets neu setzen.
-
----
-
-## Sicherung
-
-Der Lautsprecher laedt seine Senderdateien von `raw.githubusercontent.com`.
-Wird dieses Repository geloescht, umbenannt oder auf **privat** gestellt,
-spielt er kein Radio mehr - und zwar **ohne Fehlermeldung am Geraet**. Das
-ist die eigentliche Schwachstelle des Aufbaus, nicht Datenverlust.
-
-Es gibt drei Ebenen:
-
-**1. OneDrive.** Das Repo liegt unter `OneDrive\Dokumente\Github\bose`,
-inklusive `.git`. Arbeitskopie und komplette Historie werden also bereits
-mitsynchronisiert.
-
-**2. git-Bundle.** Eine einzelne Datei mit dem vollstaendigen Repository
-samt Historie, rund 70 KB:
-
-```powershell
-.\tools\Backup-Repo.ps1
-```
-
-Liegt standardmaessig in `..\_backup-bose\`, behaelt die letzten 14 Staende
-und warnt, wenn nicht committete Aenderungen vorliegen. Wiederherstellen:
-
-```powershell
-git clone "..\_backup-bose\bose-2026-08-09_0110.bundle" bose
-cd bose
-git remote add origin https://github.com/fkappen/bose.git
-git push -u origin main
-```
-
-Entscheidend ist, dass das neue Repo wieder **`fkappen/bose`** heisst und
-**oeffentlich** ist - dann stimmen die URLs in den Presets wieder und der
-Lautsprecher laeuft ohne Eingriff am Geraet weiter.
-
-**3. Zweites Remote (optional).** Ein Spiegel bei einem anderen Anbieter
-oder auf eigener Infrastruktur:
-
-```powershell
-git remote add spiegel <url>
-git push spiegel main
-```
-
-### Ausfall bemerken
-
-Weil ein Ausfall am Geraet stumm bleibt, lohnt eine regelmaessige Kontrolle.
-`Test-SoundtouchSetup` prueft genau das mit - die Zeile
-*Senderdateien abrufbar* holt jede hinterlegte URL wirklich ab:
-
-```powershell
-. .\tools\Soundtouch.ps1
-Test-SoundtouchSetup -IPAddress 192.0.2.10
-```
-
-## Zurueckbauen
-
-Die Box laesst sich jederzeit auf Werkszustand zuruecksetzen. Die hier
-gesetzten Presets sind reine Konfiguration und lassen sich mit
-`Set-SoundtouchPreset` jederzeit ueberschreiben.
-
----
-
-## Sicherheitshinweis
-
-Der Weg, Konfiguration auf die Box zu bekommen, ist eine Command Injection in
-die Geraetevariable `boseurls`. Bleibt dort ein `curl ... | sh` stehen, laedt
-die Box bei **jedem** Start ein Skript aus dem Netz und fuehrt es aus. Nach
-der Einrichtung deshalb den Hook wieder entfernen. Der `sed`-Weg oben laedt
-gar nichts erst nach und ist auch aus diesem Grund vorzuziehen.
-
----
-
-## Verwandte Projekte
-
-- [gmuth/soundploy](https://github.com/gmuth/soundploy) - der Ansatz, auf dem
-  die Erkenntnisse hier beruhen. Haengt dauerhaft am Server des Autors.
-- [JRpersonal/streborn](https://github.com/JRpersonal/streborn) - deutlich
-  umfangreicher: Go-Agent auf der Box, der die Bose-Cloud lokal nachbaut, mit
-  Spotify Connect, DLNA und Multiroom. Die richtige Wahl, wenn es mehr als
-  Radio sein soll.
+MIT. See [LICENSE](./LICENSE). The bundled go-librespot binary is GPL-3.0; see the Acknowledgements above.
